@@ -28,6 +28,43 @@ public class test {
             button.setPreferredSize(new Dimension(30,30));
             button.setMargin(new Insets(0,0,0,0));
             button.setFont(new Font("Arial", Font.PLAIN,9));
+
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //Custom button text
+                    Object[] options = {"Show goods", "Add goods"};
+                    String longMessage = "stolicka\n"
+                            +"stol\n"
+                            +"hhhhh\n"
+                            +"hhhhh\n"
+                            +"hhhhh\n"
+                            +"hhhhh\n"
+                            +"hhhhh\n";
+
+                    int choice = JOptionPane.showOptionDialog(null,
+                            "What action do you want to commit",
+                            "Information",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            options,
+                            options[0]);
+
+                    if(choice == 0){
+                        JTextArea textArea = new JTextArea(5,0);
+                        textArea.setText(longMessage);
+                        textArea.setEditable(false);
+                        JScrollPane scrollPane = new JScrollPane(textArea);
+                        JOptionPane.showMessageDialog(null, scrollPane,"Goods in shelf", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else if (choice == 1){
+                        JOptionPane.showMessageDialog(null, "to be done", "Add goods", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                }
+            });
+
         } else {
             label = new JLabel();
             label.setPreferredSize(new Dimension(30,30));
