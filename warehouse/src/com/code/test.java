@@ -43,8 +43,7 @@ public class test {
                             +"hhhhh\n";
 
                     int choice = JOptionPane.showOptionDialog(null,
-                            "What action do you want to commit",
-                            "Information",
+                            "What action do you want to commit",                            "Information",
                             JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.INFORMATION_MESSAGE,
                             null,
