@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ import java.util.Arrays;
 import java.awt.*;
 
 public class Main extends Application {
+
+    File map = new File("./data/map.txt");
 
     public static void main(String[] args) {
         launch(args);
@@ -35,6 +38,14 @@ public class Main extends Application {
         buttonProjected.setPrefSize(100, 20);
         hbox.getChildren().addAll(buttonCurrent, buttonProjected);
 
+        return hbox;
+    }
+
+    public HBox addCredits() {
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        Label cred = new Label("Naty & Teri, 2021");
+        hbox.getChildren().addAll(cred);
         return hbox;
     }
 
@@ -62,12 +73,8 @@ public class Main extends Application {
 
     public AnchorPane addAnchorPane() {
         AnchorPane anchorpane = new AnchorPane();
-        Button buttonSave = new Button("Save");
-        buttonSave.setPrefSize(100, 20);
-        Button buttonCancel = new Button("Cancel");
-        buttonCancel.setPrefSize(50, 20);
-        anchorpane.getChildren().addAll(buttonSave, buttonCancel);
-
+        TilePane centerTable = addTilePane();
+        anchorpane.getChildren().addAll(centerTable);
         return anchorpane;
     }
 
@@ -79,7 +86,6 @@ public class Main extends Application {
         String[] colrow = new String[2];
 
         try{
-            File map = new File("map.txt");
             Scanner myReader = new Scanner(map);
             String data = myReader.nextLine();
             colrow = data.split(",");
@@ -91,33 +97,32 @@ public class Main extends Application {
 
         Integer cols = Integer.parseInt(colrow[0]);
         Integer rows = Integer.parseInt(colrow[1]);
-        System.out.println(cols);
-        System.out.println(rows);
 
         tile.setPrefColumns(cols);
         tile.setPrefRows(rows);
-        tile.setStyle("-fx-background-color: DAE6F3;");
 
-//        for (int i=0; i<8; i++) {
-//            pages[i] = new ImageView(
-//                    new Image(LayoutSample.class.getResourceAsStream(
-//                            "graphics/chart_"+(i+1)+".png")));
-//            tile.getChildren().add(pages[i]);
-//        }
+        BuildMap(tile);
+
         return tile;
     }
 
-    public void BuildMap() {
+    public void BuildMap(TilePane tile) {
         int ShelfID = 0;
         int y = 0;
+        int counter = 0;
         try{
-            File map = new File("map.txt");
             Scanner myReader = new Scanner(map);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                // System.out.println(data);
+                // skip first line
+                if (counter == 0) {
+                    counter++;
+                    continue;
+                }
+                counter++;
+                // parse one row
                 String[] row = data.split(" ", 50);
-                //System.out.println(Arrays.toString(row));
+                // string to integer
                 Integer[] result = new Integer[row.length];
                 for (int i = 0; i < row.length; i++) {
                     result[i] = Integer.parseInt(row[i]);
@@ -127,10 +132,8 @@ public class Main extends Application {
                     if (result[x] == 1) {
                         ShelfID++;
                     }
-                    GenerateCell(x, y, ShelfID, result[x]);
+                    GenerateCell(tile, ShelfID, result[x]);
                 }
-
-                y++;
 
             }
             myReader.close();
@@ -140,23 +143,19 @@ public class Main extends Application {
         }
     }
 
-    public void GenerateCell(int x, int y, int SID, Integer isButton){
-
+    public void GenerateCell(TilePane tile, int SID, Integer isButton){
+        // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
-            button.setPrefSize(30,30);
-            button.setStyle("-fx-font-size:9");
+            button.setPrefSize(30,20);
+            button.setStyle("-fx-font-size:10; -fx-margin:0");
+            tile.getChildren().add(button);
         } else {
-            Label label = new Label();
-            label.setPreferredSize(new Dimension(30,30));
+            javafx.scene.control.Label label = new javafx.scene.control.Label();
+            label.setPrefSize(30,20);
+            label.setStyle("-fx-margin:0");
+            tile.getChildren().add(label);
         }
-//        c.gridx = x;
-//        c.gridy = y;
-//        if (isButton == 1) {
-//            pane.add(button, c);
-//        } else {
-//            pane.add(label, c);
-//        }
     }
 
 
@@ -166,13 +165,15 @@ public class Main extends Application {
 
         BorderPane border = new BorderPane();
         HBox hbox = addHBox();
+        HBox hbox2 = addCredits();
         border.setTop(hbox);
-        border.setLeft(addVBox());
+        border.setRight(addVBox());
         border.setCenter(addAnchorPane());
-        addTilePane();
-        Scene scene = new Scene(border, 1200, 800);
+        border.setBottom(hbox2);
+        Scene scene = new Scene(border, 1100, 700);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Layout Sample");
+        addTilePane();
         primaryStage.show();
 
 
