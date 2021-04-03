@@ -22,8 +22,8 @@ import java.awt.*;
 public class Main extends Application {
 
     File map = new File("./data/map.txt");
-    Stage primaryStage;
     Scene scenepop, scene;
+    public static Stage pStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -36,7 +36,7 @@ public class Main extends Application {
         hbox.setStyle("-fx-background-color: #336699;");
 
         Button buttonCurrent = new Button("Current");
-        buttonCurrent.setOnAction(e -> primaryStage.setScene(scenepop));
+        buttonCurrent.setOnAction(e -> pStage.setScene(scenepop));
         buttonCurrent.setPrefSize(100, 20);
 
         Button buttonProjected = new Button("Projected");
@@ -187,22 +187,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        Button but1 = new Button("Click");
         BorderPane border = new BorderPane();
+        pStage = primaryStage;
+        scene = new Scene(border, 1100, 700);
+        Button but1 = new Button("Click");
+        but1.setOnAction(e -> primaryStage.setScene(scene));
+        StackPane layout2 = new StackPane();
+        layout2.getChildren().add(but1);
+        scenepop = new Scene(layout2, 600, 300);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Warehouse");
         HBox hbox = addHBox();
         HBox hbox2 = addCredits();
         border.setTop(hbox);
         border.setRight(addVBox());
         border.setCenter(addAnchorPane());
         border.setBottom(hbox2);
-        scene = new Scene(border, 1100, 700);
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().add(but1);
-        scenepop = new Scene(layout2, 600, 300);
-        but1.setOnAction(e -> primaryStage.setScene(scene));
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Warehouse");
-        addTilePane();
         primaryStage.show();
 
     }
