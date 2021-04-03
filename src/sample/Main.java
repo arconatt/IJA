@@ -1,5 +1,7 @@
 package sample;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +22,8 @@ import java.awt.*;
 public class Main extends Application {
 
     File map = new File("./data/map.txt");
+    Stage primaryStage;
+    Scene scenepop, scene;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,6 +36,7 @@ public class Main extends Application {
         hbox.setStyle("-fx-background-color: #336699;");
 
         Button buttonCurrent = new Button("Current");
+        buttonCurrent.setOnAction(e -> primaryStage.setScene(scenepop));
         buttonCurrent.setPrefSize(100, 20);
 
         Button buttonProjected = new Button("Projected");
@@ -143,16 +148,35 @@ public class Main extends Application {
         }
     }
 
+    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            //Custom button text
+            Object[] options = {"Show goods", "Add goods"};
+            String longMessage = "stolicka\n"
+                    +"stol\n"
+                    +"hhhhh\n"
+                    +"hhhhh\n"
+                    +"hhhhh\n"
+                    +"hhhhh\n"
+                    +"hhhhh\n";
+
+            event.consume();
+        }
+    };
+
+
+
     public void GenerateCell(TilePane tile, int SID, Integer isButton){
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
-            button.setPrefSize(30,20);
+            button.setPrefSize(35,20);
             button.setStyle("-fx-font-size:10; -fx-margin:0");
             tile.getChildren().add(button);
         } else {
             javafx.scene.control.Label label = new javafx.scene.control.Label();
-            label.setPrefSize(30,20);
+            label.setPrefSize(35,20);
             label.setStyle("-fx-margin:0");
             tile.getChildren().add(label);
         }
@@ -163,6 +187,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
+        Button but1 = new Button("Click");
         BorderPane border = new BorderPane();
         HBox hbox = addHBox();
         HBox hbox2 = addCredits();
@@ -170,12 +195,15 @@ public class Main extends Application {
         border.setRight(addVBox());
         border.setCenter(addAnchorPane());
         border.setBottom(hbox2);
-        Scene scene = new Scene(border, 1100, 700);
+        scene = new Scene(border, 1100, 700);
+        StackPane layout2 = new StackPane();
+        layout2.getChildren().add(but1);
+        scenepop = new Scene(layout2, 600, 300);
+        but1.setOnAction(e -> primaryStage.setScene(scene));
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Layout Sample");
+        primaryStage.setTitle("Warehouse");
         addTilePane();
         primaryStage.show();
-
 
     }
 }
