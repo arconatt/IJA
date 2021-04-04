@@ -11,39 +11,25 @@ import javafx.stage.Stage;
 
 public class Popup{
 
-    public void showGoods(ActionEvent event) {
-        //Custom button text
-        Object[] options = {"Show goods", "Add goods"};
-        String longMessage = "stolicka\n"
-                +"stol\n"
-                +"hhhhh\n"
-                +"hhhhh\n"
-                +"hhhhh\n"
-                +"hhhhh\n"
-                +"hhhhh\n";
-        event.consume();
+    public void showGoods() {
+        //TODO: display goods to scrollbar
     }
 
     public static void display()
     {
-        Stage popupwindow=new Stage();
+        Stage popupwindow = new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
-        popupwindow.setTitle("Shelf options");
+        popupwindow.setTitle("Shelf");
 
-
-        Label label1= new Label("What action do you want to make?");
-
-        Button show = new Button("Show goods");
-        show.setOnAction(e -> Goods.display());
-        Button add = new Button("Add goods");
-        add.setOnAction(e -> Goods.display());
-        Button button1= new Button("Close this pop up window");
+        Label label1= new Label("Show goods");
+        //TODO: showGoods() call
+        Button button1= new Button("Close");
 
         button1.setOnAction(e -> popupwindow.close());
 
         VBox layout= new VBox(10);
-        layout.getChildren().addAll(label1, show, add, button1);
+        layout.getChildren().addAll(label1, button1);
         layout.setAlignment(Pos.CENTER);
         Scene scene1= new Scene(layout, 300, 250);
         popupwindow.setScene(scene1);
