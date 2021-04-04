@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
+import javafx.scene.paint.Color;
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
@@ -185,9 +186,11 @@ public class Main extends Application {
         layout2.getChildren().add(but1);
 
         Label labelhelp= new Label("Tu bude napoveda");
+        labelhelp.setStyle("-fx-font-size:20");
         Button closebut = new Button("Close");
         closebut.setOnAction(e -> primaryStage.setScene(scene));
-        VBox layouthelp = new VBox(10);
+        VBox layouthelp = new VBox(20);
+        layouthelp.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
         layouthelp.getChildren().addAll(labelhelp, closebut);
         layouthelp.setAlignment(Pos.CENTER);
 

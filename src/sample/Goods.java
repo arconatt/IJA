@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public  class Goods{
     public static void display()
     {
-        Stage popupwindow=new Stage();
+        Stage popupwindow = new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Shelf options");
