@@ -1,8 +1,7 @@
 package sample;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
@@ -19,10 +18,11 @@ import java.util.Arrays;
 
 import java.awt.*;
 
+
 public class Main extends Application {
 
     File map = new File("./data/map.txt");
-    Scene scenepop, scene;
+    Scene scenepop, scenehelp, scene;
     public static Stage pStage;
 
     public static void main(String[] args) {
@@ -35,13 +35,19 @@ public class Main extends Application {
         hbox.setSpacing(10);
         hbox.setStyle("-fx-background-color: #336699;");
 
+        Button buttonHelp = new Button("Help");
+        buttonHelp.setOnAction(e -> pStage.setScene(scenehelp));
+        buttonHelp.setPrefSize(100, 20);
+
         Button buttonCurrent = new Button("Current");
         buttonCurrent.setOnAction(e -> pStage.setScene(scenepop));
         buttonCurrent.setPrefSize(100, 20);
 
         Button buttonProjected = new Button("Projected");
+        buttonCurrent.setOnAction(e -> pStage.setScene(scenepop));
         buttonProjected.setPrefSize(100, 20);
-        hbox.getChildren().addAll(buttonCurrent, buttonProjected);
+
+        hbox.getChildren().addAll(buttonHelp, buttonCurrent, buttonProjected);
 
         return hbox;
     }
@@ -59,14 +65,14 @@ public class Main extends Application {
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(8);
 
-        Text title = new Text("Data");
+        Text title = new Text("INFO");
         vbox.getChildren().add(title);
 
         Hyperlink options[] = new Hyperlink[] {
-                new Hyperlink("Sales"),
-                new Hyperlink("Marketing"),
-                new Hyperlink("Distribution"),
-                new Hyperlink("Costs")};
+                new Hyperlink("Active trolleys"),
+                new Hyperlink("Filling of warehouse"),
+                new Hyperlink("Time"),
+                new Hyperlink("Speed")};
 
         for (int i=0; i<4; i++) {
             VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
@@ -148,32 +154,15 @@ public class Main extends Application {
         }
     }
 
-    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            //Custom button text
-            Object[] options = {"Show goods", "Add goods"};
-            String longMessage = "stolicka\n"
-                    +"stol\n"
-                    +"hhhhh\n"
-                    +"hhhhh\n"
-                    +"hhhhh\n"
-                    +"hhhhh\n"
-                    +"hhhhh\n";
-
-            event.consume();
-        }
-    };
-
-
 
     public void GenerateCell(TilePane tile, int SID, Integer isButton){
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
             button.setPrefSize(35,20);
-            button.setStyle("-fx-font-size:10; -fx-margin:0");
+            button.setStyle("-fx-font-size:10; -fx-margin:0; -fx-background-color: #DEB887");
             tile.getChildren().add(button);
+            button.setOnAction(e -> Popup.display());
         } else {
             javafx.scene.control.Label label = new javafx.scene.control.Label();
             label.setPrefSize(35,20);
@@ -189,12 +178,22 @@ public class Main extends Application {
 
         BorderPane border = new BorderPane();
         pStage = primaryStage;
-        scene = new Scene(border, 1100, 700);
+        scene = new Scene(border, 1150, 750);
         Button but1 = new Button("Click");
         but1.setOnAction(e -> primaryStage.setScene(scene));
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(but1);
-        scenepop = new Scene(layout2, 600, 300);
+
+        Label labelhelp= new Label("Tu bude napoveda");
+        Button closebut = new Button("Close");
+        closebut.setOnAction(e -> primaryStage.setScene(scene));
+        VBox layouthelp = new VBox(10);
+        layouthelp.getChildren().addAll(labelhelp, closebut);
+        layouthelp.setAlignment(Pos.CENTER);
+
+        scenepop = new Scene(layout2, 1150, 750);
+        scenehelp = new Scene(layouthelp, 1150, 750);
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("Warehouse");
         HBox hbox = addHBox();
