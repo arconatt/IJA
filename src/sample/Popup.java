@@ -15,14 +15,16 @@ public class Popup{
         //TODO: display goods to scrollbar
     }
 
-    public static void display()
+    public static void display(String shelfData, int shelfID)
     {
         Stage popupwindow = new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
-        popupwindow.setTitle("Shelf");
-
-        Label label1= new Label("Show goods");
+        popupwindow.setTitle("Shelf " + shelfID);
+        if (shelfData.equals("")) {
+            shelfData = "Empty shelf";
+        }
+        Label label1= new Label(shelfData);
         //TODO: showGoods() call
         Button button1= new Button("Close");
 

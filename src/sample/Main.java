@@ -17,6 +17,7 @@ import java.util.Scanner; // Import the Scanner class to read text files
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Arrays;
+import java.util.ArrayList;
 
 import java.awt.*;
 
@@ -29,6 +30,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 
     public HBox addHBox() {
         HBox hbox = new HBox();
@@ -125,79 +128,15 @@ public class Main extends Application {
         tile.setPrefColumns(cols);
         tile.setPrefRows(rows);
 
-        BuildMap(tile);
+        Map mapBuilder = new Map(tile);
+        Goods goodsManager = new Goods(mapBuilder.getShelfList());
 
         return tile;
     }
 
-    public void BuildMap(TilePane tile) {
-        //TODO: zoom map
-        int ShelfID = 0;
-        int y = 0;
-        int counter = 0;
-        try{
-            Scanner myReader = new Scanner(map);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                // skip first line
-                if (counter == 0) {
-                    counter++;
-                    continue;
-                }
-                counter++;
-                // parse one row
-                String[] row = data.split(" ", 50);
-                // string to integer
-                Integer[] result = new Integer[row.length];
-                for (int i = 0; i < row.length; i++) {
-                    result[i] = Integer.parseInt(row[i]);
-                }
-
-                for (int x = 0; x < result.length; x++) {
-                    if (result[x] == 1) {
-                        ShelfID++;
-                    }
-                    GenerateCell(tile, ShelfID, result[x]);
-                }
-
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-    public void LoadGoods(File file){
-        //TODO: load from ./data/goods.txt to shelfs
-    }
 
     public void LoadRequests(File file){
         //TODO: load from ./data/requests.txt
-    }
-
-    public void GenerateCell(TilePane tile, int SID, Integer isButton){
-        // create button (shelf) or label (path) based on map.txt
-        if (isButton == 1) {
-            Button button = new Button(Integer.toString(SID));
-            button.setPrefSize(35,20);
-            button.setStyle("-fx-font-size:10; -fx-margin:0; -fx-background-color: #DEB887");
-            tile.getChildren().add(button);
-            button.setOnAction(e -> Popup.display());
-        } else if (isButton == 0){
-            javafx.scene.control.Label label = new javafx.scene.control.Label();
-            label.setPrefSize(35,20);
-            label.setStyle("-fx-margin:0");
-            tile.getChildren().add(label);
-        }
-        else{
-            //TODO: ak sa ti nepaci kde je "Start" zmen v map.txt '2' na ine miesto
-            javafx.scene.control.Label label = new javafx.scene.control.Label(" Start");
-            label.setPrefSize(35,20);
-            label.setStyle("-fx-font-size:12px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
-            label.setContentDisplay(ContentDisplay.CENTER);
-            tile.getChildren().add(label);
-        }
     }
 
     @Override

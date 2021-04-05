@@ -1,4 +1,7 @@
-//TODO: minimum 50 types of goods
-shelf1 (table 5, chair 1, mirror 3)
-shelf2 (chair 2, window 1)
-shelf3 (mirror 2)
+Typ:Stul
+10,5
+12,2
+Typ:Zidle
+180,6
+120,1
+10,10
