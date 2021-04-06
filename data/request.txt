@@ -1,1 +1,4 @@
-//TODO: add goods + amount
+Stul,5
+Zidle,2
+Zrcadlo,1
+Stul,1

@@ -5,3 +5,11 @@ Typ:Zidle
 180,6
 120,1
 10,10
+Typ:Zrcadlo
+10,1
+Typ:Okno
+10,5
+Typ:Police
+10,10
+Typ:Skrin
+10,7

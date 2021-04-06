@@ -16,11 +16,6 @@ public class Shelf {
         return goodsList.size() != prevSize;
     }
 
-    public boolean removeItems() {
-        /* TODO */
-        return true;
-    }
-
     public String getShelfData() {
         String retval = "";
         for (int i = 0; i < goodsList.size(); i++) {

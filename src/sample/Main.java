@@ -50,12 +50,17 @@ public class Main extends Application {
         buttonRequest .setOnAction(e -> pStage.setScene(scenerequest));
         buttonRequest .setPrefSize(100, 20);
 
-        Button buttonProjected = new Button("Projected");
-        buttonProjected.setStyle("-fx-font-weight: bold");
-        buttonProjected.setOnAction(e -> pStage.setScene(scenepop));
-        buttonProjected.setPrefSize(100, 20);
+        Button buttonStart = new Button("Start");
+        buttonStart.setStyle("-fx-font-weight: bold");
+        // buttonStart.setOnAction(e -> pStage.setScene(scenepop));
+        buttonStart.setPrefSize(100, 20);
 
-        hbox.getChildren().addAll(buttonHelp, buttonRequest , buttonProjected);
+        Button buttonRestart = new Button("Restart");
+        buttonRestart.setStyle("-fx-font-weight: bold");
+        // buttonRestart.setOnAction(e -> pStage.setScene(scenepop));
+        buttonRestart.setPrefSize(100, 20);
+
+        hbox.getChildren().addAll(buttonHelp, buttonRequest , buttonStart, buttonRestart);
 
         return hbox;
     }
@@ -130,7 +135,6 @@ public class Main extends Application {
 
         Map mapBuilder = new Map(tile);
         Goods goodsManager = new Goods(mapBuilder.getShelfList());
-
         return tile;
     }
 
