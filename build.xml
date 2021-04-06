@@ -1,0 +1,18 @@
+<project name="Warehouse" default="dist" basedir=".">
+
+<!-- https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/javafx_ant_tasks.html -->
+
+    <target name="compile" description="Compile the Warehouse program">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build"/>
+        <mkdir dir="dest"/>
+        <jar jarfile="dest/Warehouse.jar" >
+            <fileset dir="build"/>
+        </jar>
+    </target>
+
+    <target name="run" depends="compile" description="Run the Warehouse program">
+        <java classpath="dest/Warehouse.jar" classname="Main"/>
+    </target>
+
+</project>
