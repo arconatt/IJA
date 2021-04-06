@@ -145,8 +145,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-
         BorderPane border = new BorderPane();
         pStage = primaryStage;
         scene = new Scene(border, 1150, 750);
