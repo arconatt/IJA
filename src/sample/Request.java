@@ -1,15 +1,14 @@
 package sample;
 
-import javafx.scene.text.Text;
-import javafx.util.Pair;
-
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Request {
 
     File request = new File("./data/request.txt");
@@ -17,6 +16,10 @@ public class Request {
     public ArrayList<String> listOfReqGoods = new ArrayList<>();
 
 
+    /**
+     *
+     * @param goodsMap
+     */
     public Request(HashMap goodsMap) {
         try {
             Scanner myReader = new Scanner(request);
@@ -39,6 +42,10 @@ public class Request {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String listofGoods(){
         String text = "";
         for (int i=0; i < listOfReqGoods.size(); i++){
@@ -46,14 +53,5 @@ public class Request {
         }
         return text;
     }
-
-//    public TextField setrequest(ArrayList list){
-//        Text text = new Text();
-//        for (int i=0; i < listOfReqGoods.size(); i++){
-//            for (int j = 0; j < 2; j++){
-//                text = listOfReqGoods[i][j];
-//            }
-//        }
-//    }
 
 }

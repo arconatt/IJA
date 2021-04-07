@@ -4,23 +4,27 @@ import javafx.util.Pair;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Goods {
-    File goods = new File("./data/goods.txt");
-    String[] goodsType;
-    ArrayList<Shelf> shelf;
-    ArrayList<Object> types;
-    ArrayList<Pair<Integer, Integer>> currType;
+    /**
+     *
+     */
+    private File goods = new File("./data/goods.txt");
+    private String[] goodsType;
+    private ArrayList<Shelf> shelf;
+    private ArrayList<Pair<Integer, Integer>> currType;
     public Request requestManager;
 
+    /**
+     *
+     * @param shelfPar
+     */
     public Goods(ArrayList<Shelf> shelfPar) {
+
         this.shelf = shelfPar;
-        //types = new ArrayList<>();
-        //HashMap<String, ArrayList<Pair<Integer, Integer>>> typesMap = new HashMap<>();
         HashMap<String, Object> typesMap = new HashMap<>();
         currType = new ArrayList<>();
         String prevType = "";

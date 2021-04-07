@@ -5,24 +5,33 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class GUI {
 
-    File map = new File("./data/map.txt");
-    Scene scenepop, scenehelp, scenerequest, scene;
-    public static Stage pStage;
+    private File map = new File("./data/map.txt");
+    Scene scenehelp, scenerequest, scene;
+    private Stage pStage;
     Goods goodsManager;
 
-    public HBox addHBox() {
+    /**
+     *
+     * @return
+     */
+    private HBox addHBox() {
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);
@@ -41,12 +50,10 @@ public class GUI {
 
         Button buttonStart = new Button("Start");
         buttonStart.setStyle("-fx-font-weight: bold");
-        // buttonStart.setOnAction(e -> pStage.setScene(scenepop));
         buttonStart.setPrefSize(100, 20);
 
         Button buttonRestart = new Button("Restart");
         buttonRestart.setStyle("-fx-font-weight: bold");
-        // buttonRestart.setOnAction(e -> pStage.setScene(scenepop));
         buttonRestart.setPrefSize(100, 20);
 
         hbox.getChildren().addAll(buttonHelp, buttonRequest , buttonStart, buttonRestart);
@@ -54,7 +61,11 @@ public class GUI {
         return hbox;
     }
 
-    public HBox addCredits() {
+    /**
+     *
+     * @return
+     */
+    private HBox addCredits() {
         HBox hbox = new HBox();
         hbox.setStyle("-fx-background-color: #C0C0C0");
         hbox.setSpacing(10);
@@ -63,7 +74,11 @@ public class GUI {
         return hbox;
     }
 
-    public VBox addVBox() {
+    /**
+     *
+     * @return
+     */
+    private VBox addVBox() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
         vbox.setStyle("-fx-background-color: #87CEEB ");
@@ -75,13 +90,9 @@ public class GUI {
 
         Label options[] = new Label[] {
                 new Label("Active trolleys"),
-                //new Label("number of trolleys"),
                 new Label("Filling of warehouse"),
-                //new Label("x% "),
                 new Label("Time"),
-                //new Label("XX:XX:XX"),
                 new Label("Speed")};
-        //new Label("1x or 2x or 0.5x etc.")};
 
         for (int i=0; i<4; i++) {
             options[i].setStyle("-fx-font-weight: bold");
@@ -92,14 +103,22 @@ public class GUI {
         return vbox;
     }
 
-    public AnchorPane addAnchorPane() {
+    /**
+     *
+     * @return
+     */
+    private AnchorPane addAnchorPane() {
         AnchorPane anchorpane = new AnchorPane();
         TilePane centerTable = addTilePane();
         anchorpane.getChildren().addAll(centerTable);
         return anchorpane;
     }
 
-    public TilePane addTilePane() {
+    /**
+     *
+     * @return
+     */
+    private TilePane addTilePane() {
         TilePane tile = new TilePane();
         tile.setPadding(new Insets(5, 0, 5, 0));
         tile.setVgap(4);
@@ -127,22 +146,64 @@ public class GUI {
         return tile;
     }
 
+    /**
+     *
+     */
     private static final String HELP =
             "GUI aplikacie Warehouse:\n" +
-                    "1. \n" +
-                    "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 120),\n" +
-                    "(pri prazdnom regali sa zobrazi informacia pre uzivatela: empty shelf (napr. 2, 15).\n" +
-                    "2. \n" +
-                    "Po kliknuti na tlacitko Request sa zobrazi aktualny zoznam pozadovanych poloziek a formular na vkladanie novych.\n" +
-                    "(vkladanie aktualne implementovane ako vymazanie Textfieldu) \n" +
-                    "3. \n" +
-                    "Prava sekcia bude zobrazovat aktualne informacie o sklade s moznostou editacie rychlosti pohybu vozikov.\n" +
-                    "(momentalne neimplementovane) \n" +
-                    "4. \n" +
-                    "Tlacidla Start a Restart budu po stlaceni spustat vykonavanie requestov vozikmi.\n" +
-                    "(momentalne neimplementovane) \n";
+            "1. \n" +
+            "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 120),\n" +
+            "(pri prazdnom regali sa zobrazi informacia pre uzivatela: empty shelf (napr. 2, 15).\n" +
+            "2. \n" +
+            "Po kliknuti na tlacitko Request sa zobrazi aktualny zoznam pozadovanych poloziek a formular na vkladanie novych.\n" +
+            "(vkladanie aktualne implementovane ako vymazanie Textfieldu) \n" +
+            "3. \n" +
+            "Prava sekcia bude zobrazovat aktualne informacie o sklade s moznostou editacie rychlosti pohybu vozikov.\n" +
+            "(momentalne neimplementovane) \n" +
+            "4. \n" +
+            "Tlacidla Start a Restart budu po stlaceni spustat vykonavanie requestov vozikmi.\n" +
+            "(momentalne neimplementovane) \n";
 
+    /**
+     *
+     * @param shelfData
+     * @param shelfID
+     */
+    public static void display(String shelfData, int shelfID)
+    {
+        Stage popupwindow = new Stage();
+
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Shelf " + shelfID);
+        if (shelfData.equals("")) {
+            shelfData = "Empty shelf";
+        }
+        Label label1= new Label(shelfData);
+
+        ScrollPane root = new ScrollPane();
+        root.setContent(label1);
+
+        Button button1= new Button("Close");
+
+        button1.setOnAction(e -> popupwindow.close());
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(root, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 300, 250);
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+    }
+
+    /**
+     *
+     * @param primaryStage
+     */
     public GUI(Stage primaryStage) {
+        /**
+         *
+         */
         BorderPane border = new BorderPane();
         pStage = primaryStage;
         scene = new Scene(border, 1150, 750);
@@ -156,7 +217,6 @@ public class GUI {
         border.setRight(addVBox());
         border.setCenter(addAnchorPane());
 
-        //TODO: mozno dat tieto obludnosti do funkcie?
         Label labelhelp= new Label(HELP);
         labelhelp.setStyle("-fx-font-size:20");
         Button closebut = new Button("Close");
@@ -204,10 +264,6 @@ public class GUI {
 
         scenehelp = new Scene(layouthelp, 1150, 750);
         scenerequest = new Scene(layoutrequest, 1150, 750);
-        scenepop = new Scene(layout2, 1150, 750);
-
-
-
 
         border.setBottom(hbox2);
         primaryStage.show();

@@ -1,33 +1,47 @@
 package sample;
 
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Map {
+    /**
+     *
+     */
 
     private File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Shelf> getShelfList() {
         return this.shelf;
     }
 
+    /**
+     *
+     * @param tile
+     */
     public Map(TilePane tile) {
-        BuildMap(tile);
-    }
-
-    public void BuildMap(TilePane tile) {
         //TODO: zoom map
         shelf = new ArrayList<>();
         shelf.add(null); // start the list from 1 to match the shelfID
         int ShelfID = 0;
-        int y = 0;
         int counter = 0;
         try{
             Scanner myReader = new Scanner(map);
@@ -62,7 +76,13 @@ public class Map {
         }
     }
 
-    public void GenerateCell(TilePane tile, int SID, Integer isButton){
+    /**
+     *
+     * @param tile
+     * @param SID
+     * @param isButton
+     */
+    private void GenerateCell(TilePane tile, int SID, Integer isButton){
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
@@ -70,7 +90,7 @@ public class Map {
             button.setStyle("-fx-font-size:10; -fx-margin:0; -fx-background-color: #DEB887");
             tile.getChildren().add(button);
             shelf.add(new Shelf(SID));
-            button.setOnAction(e -> Popup.display(shelf.get(SID).getShelfData(), SID));
+            button.setOnAction(e -> GUI.display(shelf.get(SID).getShelfData(), SID));
         } else if (isButton == 0){
             javafx.scene.control.Label label = new javafx.scene.control.Label();
             label.setPrefSize(35,20);
