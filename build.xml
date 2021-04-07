@@ -6,7 +6,7 @@
     <property name="build.dir" value="build"/>
     <property name="lib.dir" location="lib"/>
     <property name="res.dir" location="src/sample"/>
-    <property name="jar.name" value="warehouse-app"/>
+    <property name="jar.name" value="ija-app"/>
     <property name="main-class" value="sample.Main"/>
 
     <path id="classpath">
