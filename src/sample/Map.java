@@ -78,7 +78,6 @@ public class Map {
             tile.getChildren().add(label);
         }
         else{
-            //TODO: ak sa ti nepaci kde je "Start" zmen v map.txt '2' na ine miesto
             javafx.scene.control.Label label = new javafx.scene.control.Label(" Start");
             label.setPrefSize(35,20);
             label.setStyle("-fx-font-size:12px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");

@@ -1,7 +1,9 @@
 package sample;
 
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ public class Request {
 
     File request = new File("./data/request.txt");
     private ArrayList<ShelfItems> requestsData;
+    public ArrayList<String> listOfReqGoods = new ArrayList<>();
+
 
     public Request(HashMap goodsMap) {
         try {
@@ -25,6 +29,7 @@ public class Request {
                 Object goodsOfType = goodsMap.get(goodsParam[0]);
                 // TODO: vozik zpracuje aktualni request, pokud neni plny ceka na dalsi request, pokud je plny nebo neni dalsi req pokracuje
                 // vozik.zpracuj(goodsOfType)
+                listOfReqGoods.add(data);
             }
             myReader.close();
         } catch (
@@ -34,6 +39,21 @@ public class Request {
         }
     }
 
+    public String listofGoods(){
+        String text = "";
+        for (int i=0; i < listOfReqGoods.size(); i++){
+            text += listOfReqGoods.get(i) + "\n";
+        }
+        return text;
+    }
 
+//    public TextField setrequest(ArrayList list){
+//        Text text = new Text();
+//        for (int i=0; i < listOfReqGoods.size(); i++){
+//            for (int j = 0; j < 2; j++){
+//                text = listOfReqGoods[i][j];
+//            }
+//        }
+//    }
 
 }

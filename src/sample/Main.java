@@ -1,5 +1,7 @@
 package sample;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -7,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,12 +30,11 @@ public class Main extends Application {
     File map = new File("./data/map.txt");
     Scene scenepop, scenehelp, scenerequest, scene;
     public static Stage pStage;
+    Goods goodsManager;
 
     public static void main(String[] args) {
         launch(args);
     }
-
-
 
     public HBox addHBox() {
         HBox hbox = new HBox();
@@ -134,14 +137,24 @@ public class Main extends Application {
         tile.setPrefRows(rows);
 
         Map mapBuilder = new Map(tile);
-        Goods goodsManager = new Goods(mapBuilder.getShelfList());
+        goodsManager = new Goods(mapBuilder.getShelfList());
         return tile;
     }
 
-
-    public void LoadRequests(File file){
-        //TODO: load from ./data/requests.txt
-    }
+    private static final String HELP =
+            "GUI aplikacie Warehouse:\n" +
+            "1. \n" +
+            "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 120),\n" +
+            "(pri prazdnom regali sa zobrazi informacia pre uzivatela: empty shelf (napr. 2, 15).\n" +
+            "2. \n" +
+            "Po kliknuti na tlacitko Request sa zobrazi aktualny zoznam pozadovanych poloziek a formular na vkladanie novych.\n" +
+            "(vkladanie aktualne implementovane ako vymazanie Textfieldu) \n" +
+            "3. \n" +
+            "Prava sekcia bude zobrazovat aktualne informacie o sklade s moznostou editacie rychlosti pohybu vozikov.\n" +
+            "(momentalne neimplementovane) \n" +
+            "4. \n" +
+            "Tlacidla Start a Restart budu po stlaceni spustat vykonavanie requestov vozikmi.\n" +
+            "(momentalne neimplementovane) \n";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -149,8 +162,17 @@ public class Main extends Application {
         pStage = primaryStage;
         scene = new Scene(border, 1150, 750);
 
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Warehouse");
+        HBox hbox = addHBox();
+        HBox hbox2 = addCredits();
+        border.setTop(hbox);
+        border.setRight(addVBox());
+        border.setCenter(addAnchorPane());
+
         //TODO: mozno dat tieto obludnosti do funkcie?
-        Label labelhelp= new Label("Tu bude napoveda");
+        Label labelhelp= new Label(HELP);
         labelhelp.setStyle("-fx-font-size:20");
         Button closebut = new Button("Close");
         closebut.setOnAction(e -> primaryStage.setScene(scene));
@@ -159,14 +181,36 @@ public class Main extends Application {
         layouthelp.getChildren().addAll(labelhelp, closebut);
         layouthelp.setAlignment(Pos.CENTER);
 
-        Label labelrequest = new Label("Tu bude request od uzivatela (supis zbozi a pocet kusov na vydajne miesto)");
+        Label labelrequest = new Label("List of requested goods: \n" + goodsManager.requestManager.listofGoods());
         labelrequest.setStyle("-fx-font-size:20");
+        Label add = new Label("Submit additional requests:");
+        add.setStyle("-fx-font-size:20");
+        Label labelgood = new Label("Type of good:");
+        Label labelamount = new Label("Amount of good:");
+        TextField textField_g = new TextField ();
+        TextField textField_a = new TextField ();
+        Button submit = new Button("Submit");
+
+        //clear textfields when submitting goods
+        submit.setOnAction(value -> { textField_a.clear() ; textField_g.clear();});
+
+        HBox hb = new HBox();
+        hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
+        hb.setSpacing(10);
+
+
         Button closerequestbut = new Button("Close");
         closerequestbut.setOnAction(e -> primaryStage.setScene(scene));
-        VBox layoutrequest = new VBox(20);
+        GridPane layoutrequest = new GridPane();
+        layoutrequest.setHgap(10);
+        layoutrequest.setVgap(10);
+        layoutrequest.setPadding(new Insets(40, 40, 40, 50));
+        layoutrequest.add(labelrequest, 0,0);
+        layoutrequest.add(add, 0,1);
+        layoutrequest.add(hb, 0,2);
+        layoutrequest.add(closerequestbut, 1, 2);
         layoutrequest.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
-        layoutrequest.getChildren().addAll(labelrequest, closerequestbut);
-        labelrequest.setAlignment(Pos.CENTER); //TODO: why the fuck it is NOT in center?
+
 
         Button but1 = new Button("Click");
         but1.setOnAction(e -> primaryStage.setScene(scene));
@@ -177,13 +221,9 @@ public class Main extends Application {
         scenerequest = new Scene(layoutrequest, 1150, 750);
         scenepop = new Scene(layout2, 1150, 750);
 
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Warehouse");
-        HBox hbox = addHBox();
-        HBox hbox2 = addCredits();
-        border.setTop(hbox);
-        border.setRight(addVBox());
-        border.setCenter(addAnchorPane());
+
+
+
         border.setBottom(hbox2);
         primaryStage.show();
 

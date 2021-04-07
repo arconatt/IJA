@@ -13,9 +13,6 @@ import org.w3c.dom.Text;
 
 public class Popup{
 
-    public void showGoods() {
-        //TODO: display goods to scrollbar
-    }
 
     public static void display(String shelfData, int shelfID)
     {
@@ -31,7 +28,6 @@ public class Popup{
         ScrollPane root = new ScrollPane();
         root.setContent(label1);
 
-        //TODO: showGoods() call
         Button button1= new Button("Close");
 
         button1.setOnAction(e -> popupwindow.close());

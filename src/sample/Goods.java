@@ -15,6 +15,7 @@ public class Goods {
     ArrayList<Shelf> shelf;
     ArrayList<Object> types;
     ArrayList<Pair<Integer, Integer>> currType;
+    public Request requestManager;
 
     public Goods(ArrayList<Shelf> shelfPar) {
         this.shelf = shelfPar;
@@ -54,7 +55,7 @@ public class Goods {
             e.printStackTrace();
         }
 
-        Request requestManager = new Request(typesMap);
+        requestManager = new Request(typesMap);
     }
 
 
