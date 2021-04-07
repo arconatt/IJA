@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Request {
 
-    File request = new File("./data/request.txt");
+    public final File request = new File("./data/request.txt");
     public ArrayList<String> listOfReqGoods = new ArrayList<>();
 
 

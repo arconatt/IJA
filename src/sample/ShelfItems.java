@@ -1,7 +1,7 @@
 package sample;
 
 /**
- *
+ * Class for one batch of goods in one shelf.
  */
 public class ShelfItems {
 
@@ -9,9 +9,10 @@ public class ShelfItems {
     private int amount;
 
     /**
+     * Setter for type and amount of goods in one batch.
      *
-     * @param type
-     * @param amount
+     * @param type Type of goods.
+     * @param amount Amount of goods.
      */
     public ShelfItems(String type, int amount) {
         this.type = type;
@@ -19,8 +20,9 @@ public class ShelfItems {
     }
 
     /**
+     * Prints the batch data that is later showed in the shelf info.
      *
-     * @return
+     * @return Type and amount of goods.
      */
     public String getShelfData() {
         return "Type: " + type + "\nAmount: " + amount + "\n\n";

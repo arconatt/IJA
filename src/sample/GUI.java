@@ -18,14 +18,14 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Class to define general user interface and its methods
+ * Class to define general user interface and its methods.
  */
 public class GUI {
 
-    private File map = new File("./data/map.txt");
-    Scene scenehelp, scenerequest, scene;
+    private final File map = new File("./data/map.txt");
+    private Scene scenehelp, scenerequest, scene;
     private Stage pStage;
-    Goods goodsManager;
+    private Goods goodsManager;
 
     /**
      * Create menu on the top.
@@ -167,7 +167,9 @@ public class GUI {
             "(momentalne neimplementovane) \n" +
             "4. \n" +
             "Tlacidla Start a Restart budu po stlaceni spustat vykonavanie requestov vozikmi.\n" +
-            "(momentalne neimplementovane) \n";
+            "(momentalne neimplementovane) \n" +
+            "Na vyskusanie: \n * Zmena pozadovanych poloziek data/request.txt: \n riadok v tvare typ a mnozstvo rozdelene ciarkou.\n" +
+            " * Zmena poloziek v sklade data/goods.txt: \n 1. riadok v tvare \"Typ:polozka\", kazdy dalsi riadok pod polozkou v tvare \"shelfID,pocet\"";
 
     /**
      * Display popup window with title of shelf and scrollpane of containing goods.

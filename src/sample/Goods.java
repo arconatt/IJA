@@ -8,19 +8,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Management of goods.
+ */
 public class Goods {
-    /**
-     *
-     */
-    private File goods = new File("./data/goods.txt");
+    private final File goods = new File("./data/goods.txt");
     private String[] goodsType;
     private ArrayList<Shelf> shelf;
     private ArrayList<Pair<Integer, Integer>> currType;
     public Request requestManager;
 
     /**
+     * Adds the items to the warehouse.
      *
-     * @param shelfPar
+     * @param shelfPar List of shelves.
      */
     public Goods(ArrayList<Shelf> shelfPar) {
 

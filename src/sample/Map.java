@@ -1,15 +1,9 @@
 package sample;
 
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,12 +15,13 @@ import java.util.Scanner;
  */
 public class Map {
 
-    private File map = new File("./data/map.txt");
+    private final File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
 
     /**
+     * Getter for the list of shelves.
      *
-     * @return
+     * @return List of shelves.
      */
     public ArrayList<Shelf> getShelfList() {
         return this.shelf;
