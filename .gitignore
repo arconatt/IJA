@@ -3,4 +3,4 @@ out
 dest
 build
 /doc/*
-!architektura!.pdf
+!architektura.pdf
