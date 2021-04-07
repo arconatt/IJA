@@ -20,8 +20,8 @@ import java.util.Scanner;
  */
 public class Request {
 
-    public final File request = new File("./data/request.txt");
-    public ArrayList<String> listOfReqGoods = new ArrayList<>();
+    private final File request = new File("./data/request.txt");
+    private ArrayList<String> listOfReqGoods = new ArrayList<>();
 
 
     /**
