@@ -1,3 +1,11 @@
+/**
+ * Class to process map from file.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
 package sample;
 
 import javafx.scene.control.Button;

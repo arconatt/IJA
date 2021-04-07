@@ -1,3 +1,11 @@
+/**
+ * Class for one batch of goods in one shelf.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
 package sample;
 
 /**

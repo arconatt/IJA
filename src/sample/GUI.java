@@ -1,3 +1,11 @@
+/**
+ * Class to define general user interface and its methods.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
 package sample;
 
 import javafx.geometry.Insets;

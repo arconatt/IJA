@@ -1,3 +1,11 @@
+/**
+ * Management of one shelf.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
 package sample;
 import java.util.ArrayList;
 
