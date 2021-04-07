@@ -1,9 +1,10 @@
 package sample;
 
+/**
+ *
+ */
 public class ShelfItems {
-    /**
-     *
-     */
+
     private String type;
     private int amount;
 

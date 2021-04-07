@@ -1,4 +1,13 @@
 Stul,5
 Zidle,2
 Zrcadlo,1
-Stul,1
+Skrin,7
+Police,3
+Okno,9
+Lampa,6
+Dvere,1
+Radiator,2
+Knihovna,2
+Kreslo,3
+Pohovka,2
+Postel,1

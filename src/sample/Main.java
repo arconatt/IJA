@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     /**
      *
-     * @param args
+     * @param args arguments of application
      */
 
     public static void main(String[] args) {

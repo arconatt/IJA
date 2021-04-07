@@ -16,11 +16,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Class to process map from file.
+ */
 public class Map {
-    /**
-     *
-     */
 
     private File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
@@ -34,8 +33,9 @@ public class Map {
     }
 
     /**
+     * Function to read map file and process it to GUI.
      *
-     * @param tile
+     * @param tile Layout in which map will appear.
      */
     public Map(TilePane tile) {
         //TODO: zoom map
@@ -71,16 +71,17 @@ public class Map {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error with file occurred.");
             e.printStackTrace();
         }
     }
 
     /**
+     * Fuction to generate shelfs, path and startin position .
      *
-     * @param tile
-     * @param SID
-     * @param isButton
+     * @param tile Layout in which map will appear.
+     * @param SID Shelf number.
+     * @param isButton Integer value of button (1 == shelf, 0 == path, 2 == start)
      */
     private void GenerateCell(TilePane tile, int SID, Integer isButton){
         // create button (shelf) or label (path) based on map.txt

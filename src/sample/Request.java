@@ -7,23 +7,22 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- *
+ * Request data processing.
  */
 public class Request {
 
     File request = new File("./data/request.txt");
-    private ArrayList<ShelfItems> requestsData;
     public ArrayList<String> listOfReqGoods = new ArrayList<>();
 
 
     /**
+     * Load requests from file.
      *
-     * @param goodsMap
+     * @param goodsMap Requested goods loaded in hashmap.
      */
     public Request(HashMap goodsMap) {
         try {
             Scanner myReader = new Scanner(request);
-            requestsData = new ArrayList<>();
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 // read one request
@@ -43,8 +42,9 @@ public class Request {
     }
 
     /**
+     * Load array of goods to string.
      *
-     * @return
+     * @return long string of requested values
      */
     public String listofGoods(){
         String text = "";

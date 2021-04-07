@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- *
+ * Class to define general user interface and its methods
  */
 public class GUI {
 
@@ -28,8 +28,9 @@ public class GUI {
     Goods goodsManager;
 
     /**
+     * Create menu on the top.
      *
-     * @return
+     * @return Top bar with multiple buttons (Help, Request, Start, Restart).
      */
     private HBox addHBox() {
         HBox hbox = new HBox();
@@ -62,8 +63,9 @@ public class GUI {
     }
 
     /**
+     * Create a bar with a label containing credits.
      *
-     * @return
+     * @return Bottom bar with credits.
      */
     private HBox addCredits() {
         HBox hbox = new HBox();
@@ -75,8 +77,9 @@ public class GUI {
     }
 
     /**
+     * Create info menu on the right side of the application.
      *
-     * @return
+     * @return Box containing info
      */
     private VBox addVBox() {
         VBox vbox = new VBox();
@@ -104,8 +107,9 @@ public class GUI {
     }
 
     /**
+     * Create parent for map layout.
      *
-     * @return
+     * @return A parent.
      */
     private AnchorPane addAnchorPane() {
         AnchorPane anchorpane = new AnchorPane();
@@ -115,8 +119,9 @@ public class GUI {
     }
 
     /**
+     * Create layout for the warehouse map.
      *
-     * @return
+     * @return Layout containing shelfs.
      */
     private TilePane addTilePane() {
         TilePane tile = new TilePane();
@@ -147,12 +152,12 @@ public class GUI {
     }
 
     /**
-     *
+     * Long text including help for user.
      */
     private static final String HELP =
             "GUI aplikacie Warehouse:\n" +
             "1. \n" +
-            "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 120),\n" +
+            "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 305),\n" +
             "(pri prazdnom regali sa zobrazi informacia pre uzivatela: empty shelf (napr. 2, 15).\n" +
             "2. \n" +
             "Po kliknuti na tlacitko Request sa zobrazi aktualny zoznam pozadovanych poloziek a formular na vkladanie novych.\n" +
@@ -165,9 +170,10 @@ public class GUI {
             "(momentalne neimplementovane) \n";
 
     /**
+     * Display popup window with title of shelf and scrollpane of containing goods.
      *
-     * @param shelfData
-     * @param shelfID
+     * @param shelfData List of goods on the shelf.
+     * @param shelfID Shelf number.
      */
     public static void display(String shelfData, int shelfID)
     {
@@ -197,8 +203,9 @@ public class GUI {
     }
 
     /**
+     * Create primary scene of application and secondary scenes for menu buttons.
      *
-     * @param primaryStage
+     * @param primaryStage Scene of warehouse.
      */
     public GUI(Stage primaryStage) {
         /**
@@ -220,21 +227,26 @@ public class GUI {
         Label labelhelp= new Label(HELP);
         labelhelp.setStyle("-fx-font-size:20");
         Button closebut = new Button("Close");
+        closebut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
         closebut.setOnAction(e -> primaryStage.setScene(scene));
         VBox layouthelp = new VBox(20);
         layouthelp.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
         layouthelp.getChildren().addAll(labelhelp, closebut);
         layouthelp.setAlignment(Pos.CENTER);
 
-        Label labelrequest = new Label("List of requested goods: \n" + goodsManager.requestManager.listofGoods());
-        labelrequest.setStyle("-fx-font-size:20");
+        Label labeltitle = new Label("List of requested goods:");
+        labeltitle.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
+        Label labelrequest = new Label(goodsManager.requestManager.listofGoods());
+        labelrequest.setStyle("-fx-font-size:15");
+
         Label add = new Label("Submit additional requests:");
-        add.setStyle("-fx-font-size:20");
+        add.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
         Label labelgood = new Label("Type of good:");
         Label labelamount = new Label("Amount of good:");
         TextField textField_g = new TextField ();
         TextField textField_a = new TextField ();
         Button submit = new Button("Submit");
+        submit.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
 
         //clear textfields when submitting goods
         submit.setOnAction(value -> { textField_a.clear() ; textField_g.clear();});
@@ -245,22 +257,19 @@ public class GUI {
 
 
         Button closerequestbut = new Button("Close");
+        closerequestbut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
         closerequestbut.setOnAction(e -> primaryStage.setScene(scene));
         GridPane layoutrequest = new GridPane();
         layoutrequest.setHgap(10);
         layoutrequest.setVgap(10);
         layoutrequest.setPadding(new Insets(40, 40, 40, 50));
-        layoutrequest.add(labelrequest, 0,0);
-        layoutrequest.add(add, 0,1);
-        layoutrequest.add(hb, 0,2);
-        layoutrequest.add(closerequestbut, 1, 2);
+        layoutrequest.add(labeltitle, 0,0);
+        layoutrequest.add(labelrequest, 0,1);
+        layoutrequest.add(add, 0,2);
+        layoutrequest.add(hb, 0,3);
+        layoutrequest.add(closerequestbut, 1, 3);
         layoutrequest.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-        Button but1 = new Button("Click");
-        but1.setOnAction(e -> primaryStage.setScene(scene));
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().add(but1);
 
         scenehelp = new Scene(layouthelp, 1150, 750);
         scenerequest = new Scene(layoutrequest, 1150, 750);
