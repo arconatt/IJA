@@ -24,6 +24,9 @@ public class Goods {
     private String[] goodsType;
     private ArrayList<Shelf> shelf;
     private ArrayList<Pair<Integer, Integer>> currType;
+    /**
+     * Manages incoming requests
+     */
     public Request requestManager;
 
     /**
