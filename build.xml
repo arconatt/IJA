@@ -10,14 +10,14 @@
     <property name="main-class" value="sample.Main"/>
 
     <path id="classpath">
-        <pathelement location="${lib.dir}/javafx.base.jar"/>
-        <pathelement location="${lib.dir}/javafx.controls.jar"/>
-        <pathelement location="${lib.dir}/javafx.fxml.jar"/>
-        <pathelement location="${lib.dir}/javafx.graphics.jar"/>
-        <pathelement location="${lib.dir}/javafx.media.jar"/>
-        <pathelement location="${lib.dir}/javafx.swing.jar"/>
-        <pathelement location="${lib.dir}/javafx.web.jar"/>
-        <pathelement location="${lib.dir}/javafx-swt.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.base.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.controls.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.fxml.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.graphics.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.media.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.swing.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx.web.jar"/>
+        <pathelement location="${lib.dir}/javafx-sdk-11.0.2/lib/javafx-swt.jar"/>
     </path>
 
     <target name="clean">
@@ -29,11 +29,8 @@
     </target>
 
     <target name="compile" depends="clean, createFileStructure, docs">
-        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
-            <compilerarg line="--module-path"/>
-            <compilerarg line="${lib.dir}"/>
-            <compilerarg line="--add-modules"/>
-            <compilerarg line="javafx.controls,javafx.fxml"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" modulepath="${lib.dir}/javafx-sdk-11.0.2/lib/">
+            <compilerarg line="--add-modules javafx.controls,javafx.fxml"/>
             <classpath>
                 <path refid="classpath"/>
             </classpath>
@@ -43,7 +40,6 @@
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
-            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
         </jar>
     </target>
 
@@ -61,11 +57,8 @@
     </target>
 
     <target name="run">
-        <java jar="${dest.dir}/${jar.name}.jar" fork="true">
-            <jvmarg line="--module-path"/>
-            <jvmarg line=" ${lib.dir}"/>
-            <jvmarg line="--add-modules"/>
-            <jvmarg line="javafx.controls,javafx.fxml"/>
+        <java jar="${dest.dir}/${jar.name}.jar" fork="true" modulepath="${lib.dir}/javafx-sdk-11.0.2/lib/" >
+            <jvmarg line="--add-modules javafx.controls,javafx.fxml"/>
         </java>
     </target>
 
