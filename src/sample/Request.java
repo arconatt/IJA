@@ -9,6 +9,8 @@
 
 package sample;
 
+import javafx.scene.layout.GridPane;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -23,13 +25,12 @@ public class Request {
     private final File request = new File("./data/request.txt");
     private ArrayList<String> listOfReqGoods = new ArrayList<>();
 
-
     /**
      * Load requests from file.
      *
      * @param goodsMap Requested goods loaded in hashmap.
      */
-    public Request(HashMap goodsMap) {
+    public Request(HashMap goodsMap, GridPane tile) {
         try {
             Scanner myReader = new Scanner(request);
             while (myReader.hasNextLine()) {
@@ -43,6 +44,7 @@ public class Request {
                 listOfReqGoods.add(data);
             }
             myReader.close();
+            CartManagement cartManager = new CartManagement(tile);
         } catch (
                 FileNotFoundException e) {
             System.out.println("An error occurred.");

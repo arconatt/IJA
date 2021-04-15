@@ -11,7 +11,7 @@ package sample;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.GridPane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,22 +40,17 @@ public class Map {
      *
      * @param tile Layout in which map will appear.
      */
-    public Map(TilePane tile) {
+    public Map(GridPane tile) {
         //TODO: zoom map
         shelf = new ArrayList<>();
         shelf.add(null); // start the list from 1 to match the shelfID
         int ShelfID = 0;
-        int counter = 0;
+        int y = 0;
         try{
             Scanner myReader = new Scanner(map);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                // skip first line
-                if (counter == 0) {
-                    counter++;
-                    continue;
-                }
-                counter++;
+
                 // parse one row
                 String[] row = data.split(" ", 50);
                 // string to integer
@@ -68,9 +63,9 @@ public class Map {
                     if (result[x] == 1) {
                         ShelfID++;
                     }
-                    GenerateCell(tile, ShelfID, result[x]);
+                    GenerateCell(tile, ShelfID, result[x], x, y);
                 }
-
+                y++;
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -86,25 +81,25 @@ public class Map {
      * @param SID Shelf number.
      * @param isButton Integer value of button (1 == shelf, 0 == path, 2 == start)
      */
-    private void GenerateCell(TilePane tile, int SID, Integer isButton){
+    private void GenerateCell(GridPane tile, int SID, Integer isButton, int x, int y){
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
-            button.setPrefSize(35,20);
-            button.setStyle("-fx-font-size:10; -fx-margin:0; -fx-background-color: #DEB887");
-            tile.getChildren().add(button);
+            button.setPrefSize(25,20);
+            button.setStyle("-fx-font-size:8; -fx-margin:0; -fx-background-color: #DEB887");
+            tile.add(button, x, y);
             shelf.add(new Shelf(SID));
             button.setOnAction(e -> GUI.display(shelf.get(SID).getShelfData(), SID));
         } else if (isButton == 0){
             javafx.scene.control.Label label = new javafx.scene.control.Label();
-            label.setPrefSize(35,20);
+            label.setPrefSize(25,20);
             label.setStyle("-fx-margin:0");
-            tile.getChildren().add(label);
+            tile.add(label, x, y);
         }
         else{
             javafx.scene.control.Label label = new javafx.scene.control.Label(" Start");
-            label.setPrefSize(35,20);
-            label.setStyle("-fx-font-size:12px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
+            label.setPrefSize(25,20);
+            label.setStyle("-fx-font-size:8px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
             label.setContentDisplay(ContentDisplay.CENTER);
             tile.getChildren().add(label);
         }

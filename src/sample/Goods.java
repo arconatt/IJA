@@ -8,6 +8,7 @@
  */
 package sample;
 
+import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 import java.io.File;
@@ -34,7 +35,7 @@ public class Goods {
      *
      * @param shelfPar List of shelves.
      */
-    public Goods(ArrayList<Shelf> shelfPar) {
+    public Goods(ArrayList<Shelf> shelfPar, GridPane tile) {
 
         this.shelf = shelfPar;
         HashMap<String, Object> typesMap = new HashMap<>();
@@ -71,7 +72,7 @@ public class Goods {
             e.printStackTrace();
         }
 
-        requestManager = new Request(typesMap);
+        requestManager = new Request(typesMap, tile);
     }
 
 

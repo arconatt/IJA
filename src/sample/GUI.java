@@ -34,6 +34,7 @@ public class GUI {
     private Scene scenehelp, scenerequest, scene;
     private Stage pStage;
     private Goods goodsManager;
+    public GridPane tile;
 
     /**
      * Create menu on the top.
@@ -92,6 +93,7 @@ public class GUI {
     private VBox addVBox() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(10));
+        vbox.setPrefWidth(300);
         vbox.setStyle("-fx-background-color: #87CEEB ");
         vbox.setSpacing(8);
 
@@ -121,7 +123,7 @@ public class GUI {
      */
     private AnchorPane addAnchorPane() {
         AnchorPane anchorpane = new AnchorPane();
-        TilePane centerTable = addTilePane();
+        GridPane centerTable = addGridPane();
         anchorpane.getChildren().addAll(centerTable);
         return anchorpane;
     }
@@ -131,8 +133,8 @@ public class GUI {
      *
      * @return Layout containing shelfs.
      */
-    private TilePane addTilePane() {
-        TilePane tile = new TilePane();
+    private GridPane addGridPane() {
+        tile = new GridPane();
         tile.setPadding(new Insets(5, 0, 5, 0));
         tile.setVgap(4);
         tile.setHgap(4);
@@ -148,14 +150,8 @@ public class GUI {
             e.printStackTrace();
         }
 
-        Integer cols = Integer.parseInt(colrow[0]);
-        Integer rows = Integer.parseInt(colrow[1]);
-
-        tile.setPrefColumns(cols);
-        tile.setPrefRows(rows);
-
         Map mapBuilder = new Map(tile);
-        goodsManager = new Goods(mapBuilder.getShelfList());
+        goodsManager = new Goods(mapBuilder.getShelfList(), tile);
         return tile;
     }
 
