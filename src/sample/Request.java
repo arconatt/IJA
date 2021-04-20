@@ -13,9 +13,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Request data processing.
@@ -24,37 +22,47 @@ public class Request {
 
     private final File request = new File("./data/request.txt");
     private ArrayList<String> listOfReqGoods = new ArrayList<>();
+    public Queue<String> reqOneItem;
+    public CartManagement cartManager;
 
     /**
      * Load requests from file.
-     *
-     * @param goodsMap Requested goods loaded in hashmap.
      */
-    public Request(HashMap goodsMap, GridPane tile) {
+    public Request(GridPane tile) {
         try {
             Scanner myReader = new Scanner(request);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                // read one request
-                String[] goodsParam = data.split(",", 2);
-                Integer goodsAmount = Integer.parseInt(goodsParam[1]);
-                Object goodsOfType = goodsMap.get(goodsParam[0]);
-                // TODO: vozik zpracuje aktualni request, pokud neni plny ceka na dalsi request, pokud je plny nebo neni dalsi req pokracuje
-                // vozik.zpracuj(goodsOfType)
                 listOfReqGoods.add(data);
             }
             myReader.close();
-            CartManagement cartManager = new CartManagement(tile);
         } catch (
                 FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        this.divideGoods(listOfReqGoods);
+        this.cartManager = new CartManagement(tile, reqOneItem);
+    }
+
+    /**
+     * Takes the requests and adds the separate items to a queue.
+     * @param reqList List of requests.
+     */
+    public void divideGoods(ArrayList<String> reqList) {
+        this.reqOneItem = new LinkedList<>();
+        for (int i = 0; i < reqList.size(); i++) {
+            String[] goodsParam = reqList.get(i).split(",", 2);
+            Integer goodsAmount = Integer.parseInt(goodsParam[1]);
+            String goodsOfType = goodsParam[0];
+            for (int j = 0; j < goodsAmount; j++) {
+                reqOneItem.add(goodsOfType);
+            }
+        }
     }
 
     /**
      * Load array of goods to string.
-     *
      * @return long string of requested values
      */
     public String listofGoods(){

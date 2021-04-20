@@ -11,3 +11,4 @@ Knihovna,2
 Kreslo,3
 Pohovka,2
 Postel,1
+Kreslo,2

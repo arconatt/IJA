@@ -60,9 +60,8 @@ public class Goods {
                 String[] goodsParam = data.split(",", 2);
                 Integer shelfID = Integer.parseInt(goodsParam[0]);
                 Integer goodsAmount = Integer.parseInt(goodsParam[1]);
-                ShelfItems items = new ShelfItems(goodsType[1], goodsAmount);
                 Shelf actualShelf = this.shelf.get(shelfID);
-                actualShelf.addItems(items);
+                actualShelf.addItems(goodsType[1], goodsAmount);
                 Pair<Integer,Integer> amountInShelf = new Pair<>(shelfID, goodsAmount);
                 currType.add(amountInShelf);
             }
@@ -72,7 +71,7 @@ public class Goods {
             e.printStackTrace();
         }
 
-        requestManager = new Request(typesMap, tile);
+        requestManager = new Request(tile);
     }
 
 

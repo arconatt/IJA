@@ -34,6 +34,7 @@ public class GUI {
     private Scene scenehelp, scenerequest, scene;
     private Stage pStage;
     private Goods goodsManager;
+    private CartManagement cartManager;
     public GridPane tile;
 
     /**
@@ -61,6 +62,7 @@ public class GUI {
         Button buttonStart = new Button("Start");
         buttonStart.setStyle("-fx-font-weight: bold");
         buttonStart.setPrefSize(100, 20);
+        //TODO buttonStart.setOnAction(play);
 
         Button buttonRestart = new Button("Restart");
         buttonRestart.setStyle("-fx-font-weight: bold");
@@ -224,11 +226,12 @@ public class GUI {
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Warehouse");
+        border.setRight(addVBox());
+        border.setCenter(addAnchorPane());
         HBox hbox = addHBox();
         HBox hbox2 = addCredits();
         border.setTop(hbox);
-        border.setRight(addVBox());
-        border.setCenter(addAnchorPane());
+
 
         Label labelhelp= new Label(HELP);
         labelhelp.setStyle("-fx-font-size:20");
