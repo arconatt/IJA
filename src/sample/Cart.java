@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -11,7 +12,7 @@ public class Cart {
     private Integer currCoord;
     private GridPane tile;
     private Integer home;
-    private Integer itemsAmount;
+    public Integer itemsAmount;
 
     public Cart(Integer coord, GridPane tile) {
         this.tile = tile;
@@ -19,7 +20,7 @@ public class Cart {
         moveCart(coord);
     }
 
-    public Integer getItem(Queue<String> itemsQueue) {
+    public Integer getItem(@NotNull Queue<String> itemsQueue) {
         String item = itemsQueue.poll();
         if (item == null) {
             // there are no more requested items
@@ -28,11 +29,10 @@ public class Cart {
             Algorithm alg = new Algorithm();
             int item_coord = alg.findItem(item, this.currCoord);
             if (item_coord == 0) {
-                print("item not found"); //TODO: dialogove okno?
+                System.out.print("item not found"); //TODO: dialogove okno?
             }
             return item_coord;
         }
-        unloadItems();
     }
 
     public void unloadItems() {

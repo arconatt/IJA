@@ -20,12 +20,16 @@ public class CartManagement {
         cart3 = new Cart(3, tile);
         cart4 = new Cart(4, tile);
 
+        // TODO: docasne
 //        cart1Path = new int[]{106, 140, 174, 208};
 //        cart2Path = new int[]{107, 141, 175, 209};
 //        cart3Path = new int[]{110, 144, 178, 212};
 //        cart4Path = new int[]{213, 179, 145, 111};
     }
 
+    // TODO: cyklus: cart.getItem + shelf.removeItem dokud nebude cart.itemsAmount 5, takto pro kazdy cart, prvne je
+    // potreba nacist vsech 5 itemu pro kazdy cart, aby nebyly vsechny u 1 itemu, jakmile je 5, updateCarts a cart.unloadItems,
+    // vsechno musi byt pro kazdy vozik nezavisle
 //    public void run() {
 //        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), this::updateCarts));
 //        timeline.setCycleCount(4);
