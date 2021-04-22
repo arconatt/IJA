@@ -37,6 +37,7 @@ public class GUI {
     private Goods goodsManager;
     private CartManagement cartManager;
     public GridPane tile;
+//    private Integer activeCart = 0;
 
     /**
      * Create menu on the top.
@@ -104,17 +105,40 @@ public class GUI {
         title.setStyle("-fx-font-size:25; -fx-font-weight: bold");
         vbox.getChildren().add(title);
 
+//        this.activeCart = cartManager.getActiveCart();
+//        System.out.println(this.activeCart);
+
         Label options[] = new Label[] {
                 new Label("Active trolleys"),
+                new Label("tu bude 5 vacsinou"),
                 new Label("Filling of warehouse"),
+                new Label("160 shelf * 50 zbozi je 100%"),
                 new Label("Time"),
-                new Label("Speed")};
+                new Label("tu bude timer"),
+                new Label("Speed"),
+                new Label("I am speed")};
 
-        for (int i=0; i<4; i++) {
-            options[i].setStyle("-fx-font-weight: bold");
+
+        options[0].setStyle("-fx-font-weight: bold");
+        options[1].setPrefSize(120,60);
+        options[1].setStyle("-fx-border-style: solid");
+        options[2].setStyle("-fx-font-weight: bold");
+        options[3].setPrefSize(120,60);
+        options[3].setStyle("-fx-border-style: solid");
+        options[4].setStyle("-fx-font-weight: bold");
+        options[5].setPrefSize(120,60);
+        options[5].setStyle("-fx-border-style: solid");
+        options[6].setStyle("-fx-font-weight: bold");
+        options[7].setPrefSize(120,60);
+        options[7].setStyle("-fx-border-style: solid");
+
+        for (int i=0; i<8; i++) {
+            options[i].setAlignment(Pos.CENTER);
             VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
             vbox.getChildren().add(options[i]);
         }
+
+
 
         return vbox;
     }

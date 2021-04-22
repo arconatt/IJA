@@ -20,6 +20,7 @@ public class CartManagement {
     HashMap<Integer, Button> column8;
     HashMap<Integer, Button> column9;
     ArrayList<HashMap<Integer, Button>> columns;
+    public Integer activeCart = 0;
 
     Algorithm alg;
     private ArrayList<Button> shelfButtons;
@@ -30,15 +31,26 @@ public class CartManagement {
         this.shelfButtons = buttonsShelf;
 
         cart1 = new Cart(1, tile);
+        activeCart++;
         cart2 = new Cart(2, tile);
+        activeCart++;
         cart3 = new Cart(3, tile);
+        activeCart++;
         cart4 = new Cart(4, tile);
+        activeCart++;
         cart5 = new Cart(5, tile);
+        activeCart++;
+        //System.out.println(activeCart);
         fillPaths();
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue);
         ArrayList<HashMap<Character, Integer>> coordinates = new ArrayList<>();
         coordinates = alg.getTargets();
-        System.out.println(coordinates);
+        //System.out.println(coordinates);
+    }
+
+    public Integer getActiveCart() {
+        System.out.println(activeCart);
+        return activeCart;
     }
 
     public void fillPaths() {

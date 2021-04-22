@@ -97,22 +97,22 @@ public class Map {
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
-            button.setPrefSize(25,20);
-            button.setStyle("-fx-font-size:8; -fx-margin:0; -fx-background-color: #DEB887");
+            button.setPrefSize(35,30);
+            button.setStyle("-fx-font-size:10; -fx-margin:0; -fx-background-color: #DEB887");
             tile.add(button, x, y);
             shelf.add(new Shelf(SID));
             shelfButtons.add(button);
             button.setOnAction(e -> GUI.display(shelf.get(SID).getShelfData(), SID));
         } else if (isButton == 0){
             javafx.scene.control.Label label = new javafx.scene.control.Label();
-            label.setPrefSize(25,20);
+            label.setPrefSize(35,30);
             label.setStyle("-fx-margin:0");
             tile.add(label, x, y);
         }
         else{
             javafx.scene.control.Label label = new javafx.scene.control.Label(" Start");
-            label.setPrefSize(25,20);
-            label.setStyle("-fx-font-size:8px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
+            label.setPrefSize(35,30);
+            label.setStyle("-fx-font-size:10px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
             label.setContentDisplay(ContentDisplay.CENTER);
             tile.getChildren().add(label);
         }
