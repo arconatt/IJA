@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class Shelf {
     private int shelfID;
-    private HashMap<String, Integer> goodsList;
+    public HashMap<String, Integer> goodsList;
 
     /**
      * Setter for shelfID, creates the list of goods.
@@ -86,5 +86,9 @@ public class Shelf {
             retval += "Type: " + i + "\nAmount: " + goodsList.get(i) + "\n\n";
         }
         return retval;
+    }
+
+    public int getShelfID() {
+        return shelfID;
     }
 }

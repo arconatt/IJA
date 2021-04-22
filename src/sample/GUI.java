@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -153,7 +154,12 @@ public class GUI {
         }
 
         Map mapBuilder = new Map(tile);
-        goodsManager = new Goods(mapBuilder.getShelfList(), tile);
+        ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
+        ArrayList<Button> buttonsShelf = new ArrayList<Button>();
+        buttonsShelf = mapBuilder.getShelfButtons();
+        goodsShelf =  mapBuilder.getShelf();
+        goodsManager = new Goods(mapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
+//        goodsManager.requestManager.cartManager.setShelves(mapBuilder.getShelfButtons());
         return tile;
     }
 

@@ -1,9 +1,9 @@
 package sample;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import org.jetbrains.annotations.NotNull;
-
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -37,13 +37,34 @@ public class Cart {
             currCoord = coord;
         }
         this.coords.add(currCoord);
-        Node current = tile.getChildren().get(currCoord);
-        current.setStyle("-fx-background-color: red");
+//       Node current = tile.getChildren().get(currCoord);
+//       current.setStyle("-fx-background-color: red");
+        tile.add(new Button(), 4,0);
     }
 
     public  void showPath() {
 
     }
+
+    public HashMap<String, Integer> getItems(Queue<String> itemsQueue) {
+        HashMap<String, Integer> cartRequests = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            String item = itemsQueue.poll();
+            if (item == null) {
+                // there are no more requested items
+                break;
+            }
+            if (cartRequests.containsKey(item)) {
+                Integer amount = cartRequests.get(item);
+                amount++;
+                cartRequests.put(item, amount);
+            } else {
+                cartRequests.put(item, 1);
+            }
+        }
+        return cartRequests;
+    }
+
 
     public void finished() {
         // vrati vozik, vymaze jeho obsah a cestu

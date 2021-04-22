@@ -9,6 +9,7 @@
 
 package sample;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.io.File;
@@ -28,7 +29,7 @@ public class Request {
     /**
      * Load requests from file.
      */
-    public Request(GridPane tile) {
+    public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
         try {
             Scanner myReader = new Scanner(request);
             while (myReader.hasNextLine()) {
@@ -42,7 +43,7 @@ public class Request {
             e.printStackTrace();
         }
         this.divideGoods(listOfReqGoods);
-        this.cartManager = new CartManagement(tile, reqOneItem);
+        this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf);
     }
 
     /**

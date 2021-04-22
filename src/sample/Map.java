@@ -25,6 +25,16 @@ public class Map {
 
     private final File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
+    private ArrayList<Button> shelfButtons;
+
+
+    public ArrayList<Button> getShelfButtons() {
+        return shelfButtons;
+    }
+
+    public ArrayList<Shelf> getShelf() {
+        return shelf;
+    }
 
     /**
      * Getter for the list of shelves.
@@ -44,6 +54,7 @@ public class Map {
         //TODO: zoom map
         shelf = new ArrayList<>();
         shelf.add(null); // start the list from 1 to match the shelfID
+        shelfButtons.add(null); // start the list from 1 to match the shelfID
         int ShelfID = 0;
         int y = 0;
         try{
@@ -82,6 +93,7 @@ public class Map {
      * @param isButton Integer value of button (1 == shelf, 0 == path, 2 == start)
      */
     private void GenerateCell(GridPane tile, int SID, Integer isButton, int x, int y){
+
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));
@@ -89,6 +101,7 @@ public class Map {
             button.setStyle("-fx-font-size:8; -fx-margin:0; -fx-background-color: #DEB887");
             tile.add(button, x, y);
             shelf.add(new Shelf(SID));
+            shelfButtons.add(button);
             button.setOnAction(e -> GUI.display(shelf.get(SID).getShelfData(), SID));
         } else if (isButton == 0){
             javafx.scene.control.Label label = new javafx.scene.control.Label();
