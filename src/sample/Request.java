@@ -46,7 +46,7 @@ public class Request {
     }
 
     /**
-     * Takes the requests and adds the separate items to a queue.
+     * Take the requests and add the separate items to a queue.
      * @param reqList List of requests.
      */
     public void divideGoods(ArrayList<String> reqList) {

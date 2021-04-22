@@ -72,6 +72,7 @@ public class Goods {
         }
 
         requestManager = new Request(tile);
+        //requestManager.cartManager.alg.sendShelves();
     }
 
 

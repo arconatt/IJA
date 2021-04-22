@@ -9,7 +9,7 @@ import java.util.Queue;
 
 public class Cart {
     private ArrayList<Integer> coords = new ArrayList<>();
-    private Integer currCoord;
+    public Integer currCoord;
     private GridPane tile;
     private Integer home;
     public Integer itemsAmount;
@@ -18,21 +18,6 @@ public class Cart {
         this.tile = tile;
         this.home = coord;
         moveCart(coord);
-    }
-
-    public Integer getItem(@NotNull Queue<String> itemsQueue) {
-        String item = itemsQueue.poll();
-        if (item == null) {
-            // there are no more requested items
-            return 0;
-        } else {
-            Algorithm alg = new Algorithm();
-            int item_coord = alg.findItem(item, this.currCoord);
-            if (item_coord == 0) {
-                System.out.print("item not found"); //TODO: dialogove okno?
-            }
-            return item_coord;
-        }
     }
 
     public void unloadItems() {
