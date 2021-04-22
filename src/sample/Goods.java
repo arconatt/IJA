@@ -72,7 +72,6 @@ public class Goods {
             e.printStackTrace();
         }
 
-
         requestManager = new Request(tile, goodsShelf, buttonsShelf);
     }
 

@@ -37,8 +37,6 @@ public class Cart {
             currCoord = coord;
         }
         this.coords.add(currCoord);
-//       Node current = tile.getChildren().get(currCoord);
-//       current.setStyle("-fx-background-color: red");
         tile.add(new Button(), 4,0);
     }
 

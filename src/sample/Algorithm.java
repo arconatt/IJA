@@ -16,10 +16,6 @@ public class Algorithm {
         this.shelfButtons = shelfButtons;
     }
 
-//    public sendShelves(ArrayList<Shelf> shelves) {
-//        this.shelves = shelves;
-//    }
-
     /**
      * Searches for the wanted item near the cart position.
      * @param type Goods type.
@@ -27,7 +23,7 @@ public class Algorithm {
      */
     public ArrayList<Button> findItem(String type, int amount) {
         ArrayList<Button> goods = new ArrayList<>();
-        for (int i = 1; i < shelves.size() + 1; i++) {
+        for (int i = 1; i < this.shelves.size() + 1; i++) {
             if (amount <= 0) {
                 return goods;
             }

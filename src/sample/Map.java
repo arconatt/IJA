@@ -53,6 +53,7 @@ public class Map {
     public Map(GridPane tile) {
         //TODO: zoom map
         shelf = new ArrayList<>();
+        shelfButtons = new ArrayList<>();
         shelf.add(null); // start the list from 1 to match the shelfID
         shelfButtons.add(null); // start the list from 1 to match the shelfID
         int ShelfID = 0;
@@ -93,7 +94,6 @@ public class Map {
      * @param isButton Integer value of button (1 == shelf, 0 == path, 2 == start)
      */
     private void GenerateCell(GridPane tile, int SID, Integer isButton, int x, int y){
-
         // create button (shelf) or label (path) based on map.txt
         if (isButton == 1) {
             Button button = new Button(Integer.toString(SID));

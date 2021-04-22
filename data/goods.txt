@@ -4,9 +4,9 @@ Typ:Stul
 Typ:Zidle
 160,6
 120,1
-10,10
+15,10
 Typ:Zrcadlo
-10,1
+12,1
 Typ:Okno
 10,5
 Typ:Police

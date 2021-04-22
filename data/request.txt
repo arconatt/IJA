@@ -1,4 +1,4 @@
-Stul,5
+Stul,1
 Zidle,2
 Zrcadlo,1
 Skrin,7

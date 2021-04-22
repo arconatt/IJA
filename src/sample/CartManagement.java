@@ -12,11 +12,6 @@ public class CartManagement {
     Cart cart3;
     Cart cart4;
     Cart cart5;
-    int[] cart1Path;
-    int[] cart2Path;
-    int[] cart3Path;
-    int[] cart4Path;
-    int[] cart5Path;
 
     Algorithm alg;
     private ArrayList<Button> shelfButtons;
@@ -25,6 +20,8 @@ public class CartManagement {
 
     public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
         this.itemsQueue = itemsQueue;
+        this.shelves = goodsShelf;
+        this.shelfButtons = buttonsShelf;
 
         cart1 = new Cart(1, tile);
         cart2 = new Cart(2, tile);
@@ -33,7 +30,8 @@ public class CartManagement {
         cart5 = new Cart(5, tile);
 
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons);
-
+        ArrayList<Button> cart1Shelves = getButtons(cart1);
+        System.out.println(cart1Shelves);
     }
 
     public ArrayList<Button> getButtons(Cart cart) {
@@ -52,7 +50,6 @@ public class CartManagement {
     public void setShelves(ArrayList<Button> shelfButtons){
         this.shelfButtons = shelfButtons;
     }
-
 
     // TODO: cyklus: cart.getItem + shelf.removeItem dokud nebude cart.itemsAmount 5, takto pro kazdy cart, prvne je
     // potreba nacist vsech 5 itemu pro kazdy cart, aby nebyly vsechny u 1 itemu, jakmile je 5, updateCarts a cart.unloadItems,
