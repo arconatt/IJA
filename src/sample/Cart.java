@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Queue;
 
 public class Cart {
@@ -44,24 +45,7 @@ public class Cart {
 
     }
 
-    public HashMap<String, Integer> getItems(Queue<String> itemsQueue) {
-        HashMap<String, Integer> cartRequests = new HashMap<>();
-        for (int i = 0; i < 5; i++) {
-            String item = itemsQueue.poll();
-            if (item == null) {
-                // there are no more requested items
-                break;
-            }
-            if (cartRequests.containsKey(item)) {
-                Integer amount = cartRequests.get(item);
-                amount++;
-                cartRequests.put(item, amount);
-            } else {
-                cartRequests.put(item, 1);
-            }
-        }
-        return cartRequests;
-    }
+
 
 
     public void finished() {
