@@ -21,7 +21,7 @@ import java.util.Scanner;
 /**
  * Class to process map from file.
  */
-public class Map {
+public class WarehouseMap {
 
     private final File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
@@ -50,7 +50,7 @@ public class Map {
      *
      * @param tile Layout in which map will appear.
      */
-    public Map(GridPane tile) {
+    public WarehouseMap(GridPane tile) {
         //TODO: zoom map
         shelf = new ArrayList<>();
         shelfButtons = new ArrayList<>();

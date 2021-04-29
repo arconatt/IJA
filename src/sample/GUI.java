@@ -177,12 +177,12 @@ public class GUI {
             e.printStackTrace();
         }
 
-        Map mapBuilder = new Map(tile);
+        WarehouseMap warehouseMapBuilder = new WarehouseMap(tile);
         ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
-        buttonsShelf = mapBuilder.getShelfButtons();
-        goodsShelf =  mapBuilder.getShelf();
-        goodsManager = new Goods(mapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
+        buttonsShelf = warehouseMapBuilder.getShelfButtons();
+        goodsShelf =  warehouseMapBuilder.getShelf();
+        goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
 //        goodsManager.requestManager.cartManager.setShelves(mapBuilder.getShelfButtons());
         return tile;
     }

@@ -10,15 +10,6 @@ public class CartManagement {
     Cart cart3;
     Cart cart4;
     Cart cart5;
-    HashMap<Integer, Button> column1;
-    HashMap<Integer, Button> column2;
-    HashMap<Integer, Button> column3;
-    HashMap<Integer, Button> column4;
-    HashMap<Integer, Button> column5;
-    HashMap<Integer, Button> column6;
-    HashMap<Integer, Button> column7;
-    HashMap<Integer, Button> column8;
-    HashMap<Integer, Button> column9;
     ArrayList<HashMap<Integer, Button>> columns;
     public Integer activeCart = 0;
 
@@ -30,22 +21,29 @@ public class CartManagement {
         this.shelves = goodsShelf;
         this.shelfButtons = buttonsShelf;
 
-        cart1 = new Cart(1, tile);
+        cart1 = new Cart(1, 0, tile);
         activeCart++;
-        cart2 = new Cart(2, tile);
+        cart2 = new Cart(2, 0, tile);
         activeCart++;
-        cart3 = new Cart(3, tile);
+        cart3 = new Cart(3, 0, tile);
         activeCart++;
-        cart4 = new Cart(4, tile);
+        cart4 = new Cart(4, 0, tile);
         activeCart++;
-        cart5 = new Cart(5, tile);
+        cart5 = new Cart(5, 0, tile);
         activeCart++;
-        //System.out.println(activeCart);
         fillPaths();
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue);
         ArrayList<HashMap<Character, Integer>> coordinates = new ArrayList<>();
         coordinates = alg.getTargets();
-        //System.out.println(coordinates);
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
+        coordinates = alg.getTargets();
     }
 
     public Integer getActiveCart() {
@@ -54,15 +52,15 @@ public class CartManagement {
     }
 
     public void fillPaths() {
-        this.column1 = new HashMap<>();
-        this.column2 = new HashMap<>();
-        this.column3 = new HashMap<>();
-        this.column4 = new HashMap<>();
-        this.column5 = new HashMap<>();
-        this.column6 = new HashMap<>();
-        this.column7 = new HashMap<>();
-        this.column8 = new HashMap<>();
-        this.column9 = new HashMap<>();
+        HashMap<Integer, Button> column1 = new HashMap<>();
+        HashMap<Integer, Button> column2 = new HashMap<>();
+        HashMap<Integer, Button> column3 = new HashMap<>();
+        HashMap<Integer, Button> column4 = new HashMap<>();
+        HashMap<Integer, Button> column5 = new HashMap<>();
+        HashMap<Integer, Button> column6 = new HashMap<>();
+        HashMap<Integer, Button> column7 = new HashMap<>();
+        HashMap<Integer, Button> column8 = new HashMap<>();
+        HashMap<Integer, Button> column9 = new HashMap<>();
         for (int i = 1; i < 146 ; i += 16) {
             column1.put(i, this.shelfButtons.get(i));
         }

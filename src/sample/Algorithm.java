@@ -5,18 +5,35 @@ import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Queue;
 
 public class Algorithm {
     private GridPane tile;
-    private ArrayList<Shelf> shelves;
+    private ArrayList<Shelf> shelves = new ArrayList<>();
     private ArrayList<Button> shelfButtons;
     private Queue<String> itemsQueue;
     private ArrayList<HashMap<Integer, Button>> columns;
 
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue) {
-        this.shelves = shelves;
+        Iterator<Shelf> it = shelves.iterator();
+        while (it.hasNext()) {
+            Shelf s = it.next();
+            if (s == null) {
+                this.shelves.add(null);
+                continue;
+            }
+            Shelf newS = new Shelf(s.getShelfID());
+            Iterator ithm = s.goodsList.entrySet().iterator();
+
+            while (ithm.hasNext()) {
+                Map.Entry mapElement = (Map.Entry)ithm.next();
+                newS.addItems((String)mapElement.getKey(), (Integer)mapElement.getValue());
+            }
+
+            this.shelves.add(newS);
+        }
         this.tile = tile;
         this.shelfButtons = shelfButtons;
         this.itemsQueue = itemsQueue;
@@ -75,14 +92,18 @@ public class Algorithm {
      */
     public ArrayList<Button> findItem(String type, int amount) {
         ArrayList<Button> goods = new ArrayList<>();
-        for (int i = 1; i < this.shelves.size() + 1; i++) {
+        for (int i = 1; i < this.shelves.size(); i++) {
             if (amount <= 0) {
                 return goods;
             }
-            Shelf shelf = shelves.get(i);
+            Shelf shelf = this.shelves.get(i);
             int inStock = shelf.searchForItem(type);
             if (inStock != 0) {
                 int id = shelf.getShelfID();
+                Integer removed = shelf.removeItems(type, amount);
+//                if (removed != inStock) {
+//                    //TODO error
+//                }
                 Button button = shelfButtons.get(id);
                 goods.add(button);
                 amount -= inStock;
