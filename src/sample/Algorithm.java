@@ -49,6 +49,9 @@ public class Algorithm {
         HashMap<String, Integer> cartRequests = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             String item = itemsQueue.poll();
+            if (item == null && i == 0) {
+                return null;
+            }
             if (item == null) {
                 // there are no more requested items
                 break;
@@ -72,6 +75,9 @@ public class Algorithm {
      */
     public ArrayList<Button> getButtons(Queue<String> itemsQueue) {
         HashMap<String, Integer> cartreq = getItems(itemsQueue);
+        if (cartreq == null) {
+            return null;
+        }
         Iterator<String> itr = cartreq.keySet().iterator();
         ArrayList<Button> buttons = new ArrayList<>();
         while (itr.hasNext()) {
@@ -119,6 +125,9 @@ public class Algorithm {
      */
     public ArrayList<HashMap<Character, Integer>> getTargets() {
         ArrayList<Button> buttons = getButtons(this.itemsQueue);
+        if (buttons == null) {
+            return null;
+        }
         ArrayList<HashMap<Character, Integer>> coordinates = new ArrayList<>();
         for (int i = 0; i < buttons.size(); i++) {
             Button b = buttons.get(i);

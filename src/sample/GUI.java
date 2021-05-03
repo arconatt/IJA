@@ -8,6 +8,7 @@
  */
 package sample;
 
+import javafx.animation.Animation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -35,7 +36,6 @@ public class GUI {
     private Scene scenehelp, scenerequest, scene;
     private Stage pStage;
     private Goods goodsManager;
-    private CartManagement cartManager;
     public GridPane tile;
 //    private Integer activeCart = 0;
 
@@ -64,7 +64,8 @@ public class GUI {
         Button buttonStart = new Button("Start");
         buttonStart.setStyle("-fx-font-weight: bold");
         buttonStart.setPrefSize(100, 20);
-        //TODO buttonStart.setOnAction(play);
+        goodsManager.requestManager.cartManager.timeline.setCycleCount(Animation.INDEFINITE);
+        buttonStart.setOnAction(e -> goodsManager.requestManager.cartManager.timeline.play());
 
         Button buttonRestart = new Button("Restart");
         buttonRestart.setStyle("-fx-font-weight: bold");
@@ -165,17 +166,6 @@ public class GUI {
         tile.setPadding(new Insets(5, 0, 5, 0));
         tile.setVgap(4);
         tile.setHgap(4);
-        String[] colrow = new String[2];
-
-        try{
-            Scanner myReader = new Scanner(map);
-            String data = myReader.nextLine();
-            colrow = data.split(",");
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
 
         WarehouseMap warehouseMapBuilder = new WarehouseMap(tile);
         ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
@@ -183,7 +173,6 @@ public class GUI {
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
         goodsShelf =  warehouseMapBuilder.getShelf();
         goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
-//        goodsManager.requestManager.cartManager.setShelves(mapBuilder.getShelfButtons());
         return tile;
     }
 

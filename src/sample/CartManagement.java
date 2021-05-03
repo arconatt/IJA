@@ -1,7 +1,12 @@
 package sample;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
+
 import java.util.*;
 
 public class CartManagement {
@@ -12,14 +17,19 @@ public class CartManagement {
     Cart cart5;
     ArrayList<HashMap<Integer, Button>> columns;
     public Integer activeCart = 0;
+    private final Integer mapHeight = 13;
+    private final Integer mapWidth = 25;
+
 
     Algorithm alg;
     private ArrayList<Button> shelfButtons;
     private ArrayList<Shelf> shelves;
+    private GridPane tile;
 
     public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
         this.shelves = goodsShelf;
         this.shelfButtons = buttonsShelf;
+        this.tile = tile;
 
         cart1 = new Cart(1, 0, tile);
         activeCart++;
@@ -33,17 +43,6 @@ public class CartManagement {
         activeCart++;
         fillPaths();
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue);
-        ArrayList<HashMap<Character, Integer>> coordinates = new ArrayList<>();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
-        coordinates = alg.getTargets();
     }
 
     public Integer getActiveCart() {
@@ -93,22 +92,195 @@ public class CartManagement {
         }
     }
 
-    // TODO: cyklus: cart.getItem + shelf.removeItem dokud nebude cart.itemsAmount 5, takto pro kazdy cart, prvne je
-    // potreba nacist vsech 5 itemu pro kazdy cart, aby nebyly vsechny u 1 itemu, jakmile je 5, updateCarts a cart.unloadItems,
-    // vsechno musi byt pro kazdy vozik nezavisle
-//    public void run() {
-//        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), this::updateCarts));
-//        timeline.setCycleCount(4);
-//        timeline.play();
-//    }
-//
-//    // list souradnic od algoritmu
-//    // posune vsechny voziky o 1 policko
-//    public void updateCarts(javafx.event.ActionEvent actionEvent) {
-//        cart1.moveCart(cart1Path[i], tile);
-//        cart2.moveCart(cart2Path[i], tile);
-//        cart3.moveCart(cart3Path[i], tile);
-//        cart4.moveCart(cart4Path[i], tile);
-//    }
+    Timeline timeline = new Timeline(
+        new KeyFrame(Duration.seconds(0.5), e -> {
+            updateCarts();
+        })
+    );
+
+    // list souradnic od algoritmu
+    // posune vsechny voziky o 1 policko
+    public void updateCarts() {
+        cartBehaviour(cart1);
+//        cartBehaviour(cart2);
+//        cartBehaviour(cart3);
+//        cartBehaviour(cart4);
+//        cartBehaviour(cart5);
+    }
+
+    public void cartBehaviour(Cart cart) {
+        Integer moveres = 0;
+
+        if (cart.isHome) {
+            return;
+        }
+
+        // carts are starting
+        if (cart.currCoord.get('y') == 0) {
+            Integer reqres = cart.getRequest(alg);
+            while (reqres == -1) {
+                reqres = cart.getRequest(alg);
+            }
+            if (cart.currCoord.get('x') == 1) {
+                cart.moveDown();
+            } else {
+                cart.moveLeft();
+            }
+            return;
+        }
+
+        // check if carts should go to the bottom of the map
+        if (cart.currCoord.get('x') == this.mapWidth - 1) {
+            if (cart.currCoord.get('y') != this.mapHeight - 1) {
+                cart.moveDown();
+            } else {
+                moveres = cart.moveLeft();
+                if (moveres == -1) return;
+                cart.isDown = true;
+            }
+            return;
+        }
+
+        // check if carts should go to the top of the map
+        if (cart.currCoord.get('x') == 0) {
+            if (cart.currCoord.get('y') != 1) {
+                cart.moveUp();
+                return;
+            } else { // is on the start
+                // TODO wait while unloading items
+                cart.isDown = false;
+                cart.unloadItems();
+                Integer reqres = cart.getRequest(alg);
+                while (reqres == -1) {
+                    reqres = cart.getRequest(alg);
+                }
+            }
+        }
+
+        if (cart.goHome) {
+            cart.removeCartView(cart.currCoord.get('x'), cart.currCoord.get('y'));
+            cart.showCart(cart.home.get('x'), cart.home.get('y'));
+            cart.isHome = true;
+        }
+
+        // main part
+        if (!cart.isDown) {
+            if (cart.comingBack) {
+                if (cart.currCoord.get('y') > 1) {
+                    cart.moveUp();
+                    return;
+                } else {
+                    cart.comingBack = false;
+                    cart.isBack = true;
+                }
+            }
+            if (!cart.onTheWay) {
+                if ((tile.getChildren().get((cart.currCoord.get('y') + 1) * this.mapWidth + cart.currCoord.get('x')) instanceof Button) || cart.isBack || (cart.currCoord.get('x') == 0 && cart.currCoord.get('y') == 1)) {
+                    moveres = cart.moveRight();
+                    if (moveres == -1) return;
+                    cart.isBack = false;
+                    return;
+                } else {
+                    cart.yTarget = -1;
+                    for (int i = 0; i < cart.targetCoords.size(); i++) {
+                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
+                            cart.yTarget = cart.targetCoords.get(i).get('y');
+                            cart.targetCoords.remove(i);
+                            break;
+                        }
+                    }
+                    if (cart.yTarget != -1) {
+                        cart.onTheWay = true;
+                        cart.moveDown();
+                    } else {
+                        cart.moveRight();
+                    }
+                    return;
+                }
+            } else { // onTheWay = true
+                if (cart.currCoord.get('y') < cart.yTarget) {
+                    cart.moveDown();
+                } else if (cart.currCoord.get('y') > cart.yTarget) {
+                    cart.moveUp();
+                } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
+                    cart.noMove();
+                    cart.yTarget = -1;
+                    for (int i = 0; i < cart.targetCoords.size(); i++) {
+                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
+                            cart.yTarget = cart.targetCoords.get(i).get('y');
+                            cart.targetCoords.remove(i);
+                            break;
+                        }
+                    }
+                    if (cart.yTarget != -1) {
+                        return;
+                    }
+                    cart.onTheWay = false;
+                    cart.comingBack = true;
+                    // TODO remove from shelf and add to cart
+                }
+                return;
+            }
+        } else { // isDown == true;
+            if (cart.comingBack) {
+                if (cart.currCoord.get('y') < this.mapHeight - 1) {
+                    cart.moveDown();
+                    return;
+                } else {
+                    cart.comingBack = false;
+                    cart.isBack = true;
+                }
+            }
+            if (!cart.onTheWay) {
+                if ((tile.getChildren().get((cart.currCoord.get('y') - 1) * this.mapWidth + cart.currCoord.get('x')) instanceof Button) || cart.isBack) {
+                    moveres = cart.moveLeft();
+                    if (moveres == -1) return;
+                    cart.isBack = false;
+                    return;
+                } else {
+                    cart.yTarget = -1;
+                    for (int i = 0; i < cart.targetCoords.size(); i++) {
+                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
+                            cart.yTarget = cart.targetCoords.get(i).get('y');
+                            cart.targetCoords.remove(i);
+                            break;
+                        }
+                    }
+                    if (cart.yTarget != -1) {
+                        cart.onTheWay = true;
+                        cart.moveUp();
+                        return;
+                    } else {
+                        cart.moveLeft();
+                        return;
+                    }
+                }
+            } else { // onTheWay = true
+                if (cart.currCoord.get('y') > cart.yTarget) {
+                    cart.moveUp();
+                } else if (cart.currCoord.get('y') < cart.yTarget) {
+                    cart.moveDown();
+                }
+                else if (cart.currCoord.get('y').equals(cart.yTarget)) {
+                    cart.noMove();
+                    cart.yTarget = -1;
+                    for (int i = 0; i < cart.targetCoords.size(); i++) {
+                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
+                            cart.yTarget = cart.targetCoords.get(i).get('y');
+                            cart.targetCoords.remove(i);
+                            break;
+                        }
+                    }
+                    if (cart.yTarget != -1) {
+                        return;
+                    }
+                    cart.onTheWay = false;
+                    cart.comingBack = true;
+                    // TODO remove from shelf and add to cart
+                }
+                return;
+            }
+        }
+    }
 
 }
