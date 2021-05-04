@@ -9,6 +9,7 @@
 package sample;
 
 import javafx.animation.Animation;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -61,17 +63,23 @@ public class GUI {
         buttonRequest .setOnAction(e -> pStage.setScene(scenerequest));
         buttonRequest .setPrefSize(100, 20);
 
-        Button buttonStart = new Button("Start");
+        Button buttonStart = new Button("Play");
         buttonStart.setStyle("-fx-font-weight: bold");
         buttonStart.setPrefSize(100, 20);
         goodsManager.requestManager.cartManager.timeline.setCycleCount(Animation.INDEFINITE);
         buttonStart.setOnAction(e -> goodsManager.requestManager.cartManager.timeline.play());
 
-        Button buttonRestart = new Button("Restart");
-        buttonRestart.setStyle("-fx-font-weight: bold");
-        buttonRestart.setPrefSize(100, 20);
+        Button buttonPause = new Button("Pause");
+        buttonPause.setStyle("-fx-font-weight: bold");
+        buttonPause.setPrefSize(100, 20);
+        buttonPause.setOnAction(e -> goodsManager.requestManager.cartManager.timeline.pause());
 
-        hbox.getChildren().addAll(buttonHelp, buttonRequest , buttonStart, buttonRestart);
+        Button buttonStop = new Button("Stop"); // TODO stop nefunguje
+        buttonStop.setStyle("-fx-font-weight: bold");
+        buttonStop.setPrefSize(100, 20);
+        buttonStop.setOnAction(e -> goodsManager.requestManager.cartManager.timeline.stop());
+
+        hbox.getChildren().addAll(buttonHelp, buttonRequest , buttonStart, buttonPause, buttonStop);
 
         return hbox;
     }
@@ -167,12 +175,12 @@ public class GUI {
         tile.setVgap(4);
         tile.setHgap(4);
 
-        WarehouseMap warehouseMapBuilder = new WarehouseMap(tile);
+        WarehouseMap warehouseMapBuilder = new WarehouseMap(tile); // TODO work with timeline when opening shelves
         ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
         goodsShelf =  warehouseMapBuilder.getShelf();
-        goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
+        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
         return tile;
     }
 
@@ -218,7 +226,46 @@ public class GUI {
 
         Button button1= new Button("Close");
 
-        button1.setOnAction(e -> popupwindow.close());
+        button1.setOnAction(e -> {
+            // TODO timeline.play();
+            popupwindow.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(root, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 300, 250);
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+    }
+
+    public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline)
+    {
+        Stage popupwindow = new Stage();
+        String text = "";
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Cart");
+        if (goodsData.size() == 0) {
+            text = "Empty cart";
+        }
+
+        for (String type: goodsData.keySet()) {
+            String amount = goodsData.get(type).toString();
+            text += type + ", " + amount;
+        }
+
+        Label label1= new Label(text);
+
+        ScrollPane root = new ScrollPane();
+        root.setContent(label1);
+
+        Button button1= new Button("Close");
+
+        button1.setOnAction(e -> {
+            timeline.play();
+            popupwindow.close();
+        });
 
         VBox layout= new VBox(10);
         layout.getChildren().addAll(root, button1);

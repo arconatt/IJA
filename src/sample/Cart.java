@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Pair;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,8 +20,10 @@ public class Cart {
     public HashMap<Character, Integer> currCoord = new HashMap<>();
     private GridPane tile;
     public HashMap<Character, Integer> home = new HashMap<>();
-    public Integer itemsAmount;
     private final Integer mapWidth = 25;
+    private HashMap<String, Integer> goodsInCart = new HashMap<>();
+    public ArrayList<GoodsToRemove> fetchedGoods = new ArrayList<>();
+    public GoodsToRemove currentlyFetched;
 
 
     public boolean isDown = false;
@@ -34,7 +38,7 @@ public class Cart {
 
     ArrayList<HashMap<Character, Integer>> targetCoords = new ArrayList<>();
 
-    public Cart(Integer home_x, Integer home_y, GridPane tile) {
+    public Cart(Integer home_x, Integer home_y, GridPane tile, Timeline timeline) {
         this.tile = tile;
         this.home.put('x', home_x);
         this.home.put('y', home_y);
@@ -43,6 +47,20 @@ public class Cart {
         showCart(home_x, home_y);
         this.cart1.setStyle("-fx-background-image: url('./img/cart.png'); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-border-width: 0; -fx-background-color: transparent;");
         this.cart1.setPrefSize(35,30);
+        cart1.setOnAction(e -> {
+            timeline.pause();
+            GUI.displayCart(this.goodsInCart, timeline);
+        });
+    }
+
+    public void loadItems(String type, Integer amount) {
+        if (goodsInCart.containsKey(type)) {
+            Integer mapAmount = goodsInCart.get(type);
+            mapAmount += amount;
+            goodsInCart.put(type, mapAmount);
+        } else {
+            goodsInCart.put(type, amount);
+        }
     }
 
     public void unloadItems() {
@@ -50,7 +68,7 @@ public class Cart {
     }
 
     public Integer getRequest(Algorithm alg) {
-        ArrayList<HashMap<Character, Integer>> target = new ArrayList<>();
+        ArrayList<HashMap<Character, Integer>> target;
         if ((target = alg.getTargets()) == null) {
             this.goHome = true;
             return 0;
@@ -60,6 +78,7 @@ public class Cart {
             return -1;
         }
         this.targetCoords = target;
+        this.fetchedGoods = alg.getFetchedGoods();
         return 0;
     }
 

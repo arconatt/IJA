@@ -8,6 +8,7 @@
  */
 package sample;
 
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 
@@ -102,7 +103,10 @@ public class WarehouseMap {
             tile.add(button, x, y);
             shelf.add(new Shelf(SID));
             shelfButtons.add(button);
-            button.setOnAction(e -> GUI.display(shelf.get(SID).getShelfData(), SID));
+            button.setOnAction(e -> {
+                // TODO timeline.pause();
+                GUI.display(shelf.get(SID).getShelfData(), SID);
+            });
         } else if (isButton == 0){
             javafx.scene.control.Label label = new javafx.scene.control.Label();
             label.setPrefSize(35,30);

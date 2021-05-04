@@ -2,7 +2,6 @@ package sample;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,7 @@ public class Algorithm {
     private ArrayList<Button> shelfButtons;
     private Queue<String> itemsQueue;
     private ArrayList<HashMap<Integer, Button>> columns;
+    private ArrayList<GoodsToRemove> fetchedGoods = new ArrayList<>();
 
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue) {
         Iterator<Shelf> it = shelves.iterator();
@@ -38,6 +38,10 @@ public class Algorithm {
         this.shelfButtons = shelfButtons;
         this.itemsQueue = itemsQueue;
         this.columns = columns;
+    }
+
+    public ArrayList<GoodsToRemove> getFetchedGoods() {
+        return fetchedGoods;
     }
 
     /**
@@ -107,6 +111,8 @@ public class Algorithm {
             if (inStock != 0) {
                 int id = shelf.getShelfID();
                 Integer removed = shelf.removeItems(type, amount);
+                HashMap<String, Integer> currentGoods = new HashMap<>();
+                fetchedGoods.add(new GoodsToRemove(id, type, amount));
 //                if (removed != inStock) {
 //                    //TODO error
 //                }
@@ -124,6 +130,7 @@ public class Algorithm {
      * @return Array of coordinates.
      */
     public ArrayList<HashMap<Character, Integer>> getTargets() {
+        this.fetchedGoods.clear();
         ArrayList<Button> buttons = getButtons(this.itemsQueue);
         if (buttons == null) {
             return null;

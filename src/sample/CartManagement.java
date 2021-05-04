@@ -1,9 +1,7 @@
 package sample;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -31,15 +29,15 @@ public class CartManagement {
         this.shelfButtons = buttonsShelf;
         this.tile = tile;
 
-        cart1 = new Cart(1, 0, tile);
+        cart1 = new Cart(1, 0, tile, timeline);
         activeCart++;
-        cart2 = new Cart(2, 0, tile);
+        cart2 = new Cart(2, 0, tile, timeline);
         activeCart++;
-        cart3 = new Cart(3, 0, tile);
+        cart3 = new Cart(3, 0, tile, timeline);
         activeCart++;
-        cart4 = new Cart(4, 0, tile);
+        cart4 = new Cart(4, 0, tile, timeline);
         activeCart++;
-        cart5 = new Cart(5, 0, tile);
+        cart5 = new Cart(5, 0, tile, timeline);
         activeCart++;
         fillPaths();
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue);
@@ -97,13 +95,15 @@ public class CartManagement {
             if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
                 cart.yTarget = cart.targetCoords.get(i).get('y');
                 cart.targetCoords.remove(i);
+                cart.currentlyFetched = cart.fetchedGoods.get(i);
+                cart.fetchedGoods.remove(i);
                 break;
             }
         }
     }
 
     Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(0.3), e -> {
+        new KeyFrame(Duration.seconds(0.7), e -> {
             updateCarts();
         })
     );
@@ -112,7 +112,7 @@ public class CartManagement {
     // posune vsechny voziky o 1 policko
     public void updateCarts() {
         cartBehaviour(cart1);
-//        cartBehaviour(cart2);
+        cartBehaviour(cart2);
 //        cartBehaviour(cart3);
 //        cartBehaviour(cart4);
 //        cartBehaviour(cart5);
@@ -132,6 +132,10 @@ public class CartManagement {
                 while (reqres == -1) {
                     reqres = cart.getRequest(alg);
                 }
+                if (cart.goHome) {
+                    cart.isHome = true;
+                    return;
+                }
             }
             if (cart.currCoord.get('x') == 1) {
                 cart.moveDown();
@@ -150,9 +154,12 @@ public class CartManagement {
                     cart.moveUp();
                 } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     cart.yTarget = -1;
                     cart.onTheWay = false;
-                    // TODO remove from shelf and add to cart
                 }
                 return;
             }
@@ -185,7 +192,10 @@ public class CartManagement {
                     cart.noMove();
                     cart.yTarget = -1;
                     cart.onTheWay = false;
-                    // TODO remove from shelf and add to cart
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
@@ -259,7 +269,10 @@ public class CartManagement {
                     }
                     cart.onTheWay = false;
                     cart.comingBack = true;
-                    // TODO remove from shelf and add to cart
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
@@ -306,7 +319,10 @@ public class CartManagement {
                     }
                     cart.onTheWay = false;
                     cart.comingBack = true;
-                    // TODO remove from shelf and add to cart
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
