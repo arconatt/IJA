@@ -1,5 +1,5 @@
 Stul,1
 Zidle,2
-Zrcadlo,1
 Skrin,6
 Lampa,1
+Zrcadlo,1

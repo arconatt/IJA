@@ -103,7 +103,7 @@ public class CartManagement {
     }
 
     Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(0.5), e -> {
+        new KeyFrame(Duration.seconds(0.3), e -> {
             updateCarts();
         })
     );
@@ -112,7 +112,7 @@ public class CartManagement {
     // posune vsechny voziky o 1 policko
     public void updateCarts() {
         cartBehaviour(cart1);
-        cartBehaviour(cart2);
+//        cartBehaviour(cart2);
 //        cartBehaviour(cart3);
 //        cartBehaviour(cart4);
 //        cartBehaviour(cart5);
@@ -143,28 +143,70 @@ public class CartManagement {
 
         // check if carts should go to the bottom of the map
         if (cart.currCoord.get('x') == this.mapWidth - 1) {
-            if (cart.currCoord.get('y') != this.mapHeight - 1) {
-                cart.moveDown();
-            } else {
-                moveres = cart.moveLeft();
+            if (cart.onTheWay) {
+                if (cart.currCoord.get('y') < cart.yTarget) {
+                    cart.moveDown();
+                } else if (cart.currCoord.get('y') > cart.yTarget) {
+                    cart.moveUp();
+                } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
+                    cart.noMove();
+                    cart.yTarget = -1;
+                    cart.onTheWay = false;
+                    // TODO remove from shelf and add to cart
+                }
+                return;
+            }
+            isReqInLine(cart);
+            if (cart.yTarget != -1) {
+                moveres = cart.moveDown();
                 if (moveres == -1) return;
-                cart.isDown = true;
+                cart.onTheWay = true;
+                return;
+            } else {
+                if (cart.currCoord.get('y') != this.mapHeight - 1) {
+                    cart.moveDown();
+                } else {
+                    moveres = cart.moveLeft();
+                    if (moveres == -1) return;
+                    cart.isDown = true;
+                }
             }
             return;
         }
 
         // check if carts should go to the top of the map
         if (cart.currCoord.get('x') == 0) {
-            if (cart.currCoord.get('y') != 1) {
-                cart.moveUp();
+            if (cart.onTheWay) {
+                if (cart.currCoord.get('y') < cart.yTarget) {
+                    cart.moveDown();
+                } else if (cart.currCoord.get('y') > cart.yTarget) {
+                    cart.moveUp();
+                } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
+                    cart.noMove();
+                    cart.yTarget = -1;
+                    cart.onTheWay = false;
+                    // TODO remove from shelf and add to cart
+                }
                 return;
-            } else { // is on the start
-                // TODO wait while unloading items
-                cart.isDown = false;
-                cart.unloadItems();
-                Integer reqres = cart.getRequest(alg);
-                while (reqres == -1) {
-                    reqres = cart.getRequest(alg);
+            }
+            isReqInLine(cart);
+            if (cart.yTarget != -1) {
+                moveres = cart.moveUp();
+                if (moveres == -1) return;
+                cart.onTheWay = true;
+                return;
+            } else {
+                if (cart.currCoord.get('y') != 1) {
+                    cart.moveUp();
+                    return;
+                } else { // is on the start
+                    // TODO wait while unloading items
+                    cart.isDown = false;
+                    cart.unloadItems();
+                    Integer reqres = cart.getRequest(alg);
+                    while (reqres == -1) {
+                        reqres = cart.getRequest(alg);
+                    }
                 }
             }
         }
@@ -192,7 +234,6 @@ public class CartManagement {
                     moveres = cart.moveRight();
                     if (moveres == -1) return;
                     cart.isBack = false;
-                    return;
                 } else {
                     cart.yTarget = -1;
                     isReqInLine(cart);
@@ -202,8 +243,8 @@ public class CartManagement {
                     } else {
                         cart.moveRight();
                     }
-                    return;
                 }
+                return;
             } else { // onTheWay = true
                 if (cart.currCoord.get('y') < cart.yTarget) {
                     cart.moveDown();

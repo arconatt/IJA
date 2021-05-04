@@ -12,7 +12,8 @@ Typ:Okno
 Typ:Police
 130,10
 Typ:Skrin
-81,7
+48,1
+96,5
 Typ:Lampa
 23,2
 100,1
