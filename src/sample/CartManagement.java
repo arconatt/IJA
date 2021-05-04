@@ -92,6 +92,16 @@ public class CartManagement {
         }
     }
 
+    private void isReqInLine(Cart cart) {
+        for (int i = 0; i < cart.targetCoords.size(); i++) {
+            if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
+                cart.yTarget = cart.targetCoords.get(i).get('y');
+                cart.targetCoords.remove(i);
+                break;
+            }
+        }
+    }
+
     Timeline timeline = new Timeline(
         new KeyFrame(Duration.seconds(0.5), e -> {
             updateCarts();
@@ -185,13 +195,7 @@ public class CartManagement {
                     return;
                 } else {
                     cart.yTarget = -1;
-                    for (int i = 0; i < cart.targetCoords.size(); i++) {
-                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
-                            cart.yTarget = cart.targetCoords.get(i).get('y');
-                            cart.targetCoords.remove(i);
-                            break;
-                        }
-                    }
+                    isReqInLine(cart);
                     if (cart.yTarget != -1) {
                         cart.onTheWay = true;
                         cart.moveDown();
@@ -208,13 +212,7 @@ public class CartManagement {
                 } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
                     cart.yTarget = -1;
-                    for (int i = 0; i < cart.targetCoords.size(); i++) {
-                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
-                            cart.yTarget = cart.targetCoords.get(i).get('y');
-                            cart.targetCoords.remove(i);
-                            break;
-                        }
-                    }
+                    isReqInLine(cart);
                     if (cart.yTarget != -1) {
                         return;
                     }
@@ -242,13 +240,7 @@ public class CartManagement {
                     return;
                 } else {
                     cart.yTarget = -1;
-                    for (int i = 0; i < cart.targetCoords.size(); i++) {
-                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
-                            cart.yTarget = cart.targetCoords.get(i).get('y');
-                            cart.targetCoords.remove(i);
-                            break;
-                        }
-                    }
+                    isReqInLine(cart);
                     if (cart.yTarget != -1) {
                         cart.onTheWay = true;
                         cart.moveUp();
@@ -267,13 +259,7 @@ public class CartManagement {
                 else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
                     cart.yTarget = -1;
-                    for (int i = 0; i < cart.targetCoords.size(); i++) {
-                        if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
-                            cart.yTarget = cart.targetCoords.get(i).get('y');
-                            cart.targetCoords.remove(i);
-                            break;
-                        }
-                    }
+                    isReqInLine(cart);
                     if (cart.yTarget != -1) {
                         return;
                     }
