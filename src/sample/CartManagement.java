@@ -102,7 +102,7 @@ public class CartManagement {
     // posune vsechny voziky o 1 policko
     public void updateCarts() {
         cartBehaviour(cart1);
-//        cartBehaviour(cart2);
+        cartBehaviour(cart2);
 //        cartBehaviour(cart3);
 //        cartBehaviour(cart4);
 //        cartBehaviour(cart5);
@@ -117,9 +117,11 @@ public class CartManagement {
 
         // carts are starting
         if (cart.currCoord.get('y') == 0) {
-            Integer reqres = cart.getRequest(alg);
-            while (reqres == -1) {
-                reqres = cart.getRequest(alg);
+            if (cart.currCoord.get('x') == cart.home.get('x')) {
+                Integer reqres = cart.getRequest(alg);
+                while (reqres == -1) {
+                    reqres = cart.getRequest(alg);
+                }
             }
             if (cart.currCoord.get('x') == 1) {
                 cart.moveDown();
@@ -161,6 +163,7 @@ public class CartManagement {
             cart.removeCartView(cart.currCoord.get('x'), cart.currCoord.get('y'));
             cart.showCart(cart.home.get('x'), cart.home.get('y'));
             cart.isHome = true;
+            return;
         }
 
         // main part
