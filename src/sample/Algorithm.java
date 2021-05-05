@@ -14,7 +14,8 @@ public class Algorithm {
     private ArrayList<Button> shelfButtons;
     private Queue<String> itemsQueue;
     private ArrayList<HashMap<Integer, Button>> columns;
-    private ArrayList<GoodsToRemove> fetchedGoods = new ArrayList<>();
+    private HashMap<String, Integer> items;
+
 
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue) {
         Iterator<Shelf> it = shelves.iterator();
@@ -40,8 +41,8 @@ public class Algorithm {
         this.columns = columns;
     }
 
-    public ArrayList<GoodsToRemove> getFetchedGoods() {
-        return fetchedGoods;
+    public HashMap<String, Integer> getItems() {
+        return items;
     }
 
     /**
@@ -68,6 +69,7 @@ public class Algorithm {
                 cartRequests.put(item, 1);
             }
         }
+        this.items = cartRequests;
         return cartRequests;
     }
 
@@ -111,8 +113,6 @@ public class Algorithm {
             if (inStock != 0) {
                 int id = shelf.getShelfID();
                 Integer removed = shelf.removeItems(type, amount);
-                HashMap<String, Integer> currentGoods = new HashMap<>();
-                fetchedGoods.add(new GoodsToRemove(id, type, amount));
 //                if (removed != inStock) {
 //                    //TODO error
 //                }
@@ -129,14 +129,14 @@ public class Algorithm {
      *
      * @return Array of coordinates.
      */
-    public ArrayList<HashMap<Character, Integer>> getTargets() {
-        this.fetchedGoods.clear();
+    public ArrayList<GoodsToRemove> getTargets() {
         ArrayList<Button> buttons = getButtons(this.itemsQueue);
         if (buttons == null) {
             return null;
         }
-        ArrayList<HashMap<Character, Integer>> coordinates = new ArrayList<>();
+        ArrayList<GoodsToRemove> coordinates = new ArrayList<>();
         for (int i = 0; i < buttons.size(); i++) {
+            GoodsToRemove batch = new GoodsToRemove();
             Button b = buttons.get(i);
             String btext = b.getText();
             Integer id = Integer.valueOf(btext);
@@ -150,10 +150,10 @@ public class Algorithm {
                     } else {
                         x--;
                     }
-                    HashMap<Character, Integer> coord = new HashMap<Character, Integer>();
-                    coord.put('x',x);
-                    coord.put('y',y);
-                    coordinates.add(coord);
+                    batch.setX(x);
+                    batch.setY(y);
+                    batch.setShelfID(id);
+                    coordinates.add(batch);
                     break;
                 }
             }

@@ -92,11 +92,10 @@ public class CartManagement {
 
     private void isReqInLine(Cart cart) {
         for (int i = 0; i < cart.targetCoords.size(); i++) {
-            if (cart.targetCoords.get(i).get('x').equals(cart.currCoord.get('x'))) {
-                cart.yTarget = cart.targetCoords.get(i).get('y');
+            if (cart.targetCoords.get(i).getX().equals(cart.currCoord.get('x'))) {
+                cart.yTarget = cart.targetCoords.get(i).getY();
+                cart.currentlyFetched = cart.targetCoords.get(i);
                 cart.targetCoords.remove(i);
-                cart.currentlyFetched = cart.fetchedGoods.get(i);
-                cart.fetchedGoods.remove(i);
                 break;
             }
         }
@@ -127,7 +126,7 @@ public class CartManagement {
 
         // carts are starting
         if (cart.currCoord.get('y') == 0) {
-            if (cart.currCoord.get('x') == cart.home.get('x')) {
+            if (cart.currCoord.get('x').equals(cart.home.get('x'))) {
                 Integer reqres = cart.getRequest(alg);
                 while (reqres == -1) {
                     reqres = cart.getRequest(alg);
@@ -155,9 +154,9 @@ public class CartManagement {
                 } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
                     // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     cart.yTarget = -1;
                     cart.onTheWay = false;
                 }
@@ -193,9 +192,9 @@ public class CartManagement {
                     cart.yTarget = -1;
                     cart.onTheWay = false;
                     // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
@@ -270,9 +269,9 @@ public class CartManagement {
                     cart.onTheWay = false;
                     cart.comingBack = true;
                     // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
@@ -320,9 +319,9 @@ public class CartManagement {
                     cart.onTheWay = false;
                     cart.comingBack = true;
                     // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    //cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }

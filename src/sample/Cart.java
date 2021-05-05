@@ -22,8 +22,8 @@ public class Cart {
     public HashMap<Character, Integer> home = new HashMap<>();
     private final Integer mapWidth = 25;
     private HashMap<String, Integer> goodsInCart = new HashMap<>();
-    public ArrayList<GoodsToRemove> fetchedGoods = new ArrayList<>();
     public GoodsToRemove currentlyFetched;
+    public HashMap<String, Integer> toBeFetched;
 
 
     public boolean isDown = false;
@@ -36,7 +36,7 @@ public class Cart {
 
     Button cart1 = new Button();
 
-    ArrayList<HashMap<Character, Integer>> targetCoords = new ArrayList<>();
+    ArrayList<GoodsToRemove> targetCoords = new ArrayList<>();
 
     public Cart(Integer home_x, Integer home_y, GridPane tile, Timeline timeline) {
         this.tile = tile;
@@ -68,7 +68,7 @@ public class Cart {
     }
 
     public Integer getRequest(Algorithm alg) {
-        ArrayList<HashMap<Character, Integer>> target;
+        ArrayList<GoodsToRemove> target;
         if ((target = alg.getTargets()) == null) {
             this.goHome = true;
             return 0;
@@ -78,7 +78,7 @@ public class Cart {
             return -1;
         }
         this.targetCoords = target;
-        this.fetchedGoods = alg.getFetchedGoods();
+        this.toBeFetched = alg.getItems();
         return 0;
     }
 
