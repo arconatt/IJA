@@ -243,19 +243,19 @@ public class GUI {
     public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline)
     {
         Stage popupwindow = new Stage();
-        String text = "";
+        StringBuilder text = new StringBuilder();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Cart");
         if (goodsData.size() == 0) {
-            text = "Empty cart";
+            text = new StringBuilder("Empty cart");
         }
 
         for (String type: goodsData.keySet()) {
             String amount = goodsData.get(type).toString();
-            text += type + ", " + amount;
+            text.append(type).append(", ").append(amount).append("\n");
         }
 
-        Label label1= new Label(text);
+        Label label1= new Label(text.toString());
 
         ScrollPane root = new ScrollPane();
         root.setContent(label1);

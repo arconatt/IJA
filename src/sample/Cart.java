@@ -64,7 +64,11 @@ public class Cart {
             // item not found
             return -1;
         }
-        this.targetCoords = target;
+        this.targetCoords = new ArrayList<>();
+        Iterator<GoodsToRemove> iterator = target.iterator();
+        while (iterator.hasNext()){
+            this.targetCoords.add((GoodsToRemove) iterator.next());
+        }
         return 0;
     }
 

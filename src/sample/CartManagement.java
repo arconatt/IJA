@@ -112,9 +112,9 @@ public class CartManagement {
     public void updateCarts() {
         cartBehaviour(cart1);
         cartBehaviour(cart2);
-//        cartBehaviour(cart3);
-//        cartBehaviour(cart4);
-//        cartBehaviour(cart5);
+        cartBehaviour(cart3);
+        cartBehaviour(cart4);
+        cartBehaviour(cart5);
     }
 
     public void cartBehaviour(Cart cart) {
