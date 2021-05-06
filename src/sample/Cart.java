@@ -56,7 +56,23 @@ public class Cart {
         for (int i = 0; i < this.coords.size(); i++){
             Integer x_path = this.coords.get(i).get('x');
             Integer y_path = this.coords.get(i).get('y');
-            tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-color: red;");
+            switch (getCartId()) {
+                case 1:
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/red.png');");
+                    break;
+                case 2:
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/blue.png');");
+                    break;
+                case 3:
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/green.png');");
+                    break;
+                case 4:
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/purple.png');");
+                    break;
+                case 5:
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/yellow.png');");
+                    break;
+            }
         }
     }
 
@@ -64,10 +80,13 @@ public class Cart {
         for (int i = 0; i < this.coords.size(); i++){
             Integer x_path = this.coords.get(i).get('x');
             Integer y_path = this.coords.get(i).get('y');
-            tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-color: transparent;");
+            tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: none;");
         }
     }
 
+    public Integer getCartId() {
+        return home.get('x');
+    }
 
     public StringBuilder unloadItems() {
         StringBuilder text = new StringBuilder("");
@@ -107,7 +126,10 @@ public class Cart {
         if (tile.getChildren().get(currCoord.get('y') * this.mapWidth + (currCoord.get('x') - 1)) instanceof Button) {
             return -1;
         }
-        coords.add(currCoord);
+        HashMap<Character, Integer> currCoordCopy = new HashMap<>();
+        currCoordCopy.put('x', currCoord.get('x'));
+        currCoordCopy.put('y', currCoord.get('y'));
+        coords.add(currCoordCopy);
         removeCartView();
         currCoord.put('x', currCoord.get('x') - 1);
         currCoord.put('y', currCoord.get('y'));
@@ -119,7 +141,10 @@ public class Cart {
         if (tile.getChildren().get(currCoord.get('y') * this.mapWidth + (currCoord.get('x') + 1)) instanceof Button) {
             return -1;
         }
-        coords.add(currCoord);
+        HashMap<Character, Integer> currCoordCopy = new HashMap<>();
+        currCoordCopy.put('x', currCoord.get('x'));
+        currCoordCopy.put('y', currCoord.get('y'));
+        coords.add(currCoordCopy);
         removeCartView();
         currCoord.put('x', currCoord.get('x') + 1);
         currCoord.put('y', currCoord.get('y'));
@@ -131,7 +156,10 @@ public class Cart {
         if (tile.getChildren().get((currCoord.get('y') + 1) * this.mapWidth + currCoord.get('x')) instanceof Button) {
             return -1;
         }
-        coords.add(currCoord);
+        HashMap<Character, Integer> currCoordCopy = new HashMap<>();
+        currCoordCopy.put('x', currCoord.get('x'));
+        currCoordCopy.put('y', currCoord.get('y'));
+        coords.add(currCoordCopy);
         removeCartView();
         currCoord.put('x', currCoord.get('x'));
         currCoord.put('y', currCoord.get('y') + 1);
@@ -143,7 +171,10 @@ public class Cart {
         if (tile.getChildren().get((currCoord.get('y') - 1) * this.mapWidth + currCoord.get('x')) instanceof Button) {
             return -1;
         }
-        coords.add(currCoord);
+        HashMap<Character, Integer> currCoordCopy = new HashMap<>();
+        currCoordCopy.put('x', currCoord.get('x'));
+        currCoordCopy.put('y', currCoord.get('y'));
+        coords.add(currCoordCopy);
         removeCartView();
         currCoord.put('x', currCoord.get('x'));
         currCoord.put('y', currCoord.get('y') - 1);

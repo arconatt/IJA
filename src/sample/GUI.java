@@ -255,7 +255,7 @@ public class GUI {
         Stage popupwindow = new Stage();
         StringBuilder text = new StringBuilder();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
-        popupwindow.setTitle("Cart");
+        popupwindow.setTitle("Cart " + cart.getCartId().toString());
         if (goodsData.size() == 0) {
             text = new StringBuilder("Empty cart");
         }
