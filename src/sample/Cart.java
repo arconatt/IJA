@@ -20,6 +20,7 @@ public class Cart {
     public boolean isBack = false;
     public boolean goHome = false;
     public boolean isHome = false;
+    public  boolean unloading = false;
     public Integer yTarget = -1;
 
     private final Button cart1 = new Button();
@@ -36,7 +37,8 @@ public class Cart {
         this.cart1.setPrefSize(35,30);
         cart1.setOnAction(e -> {
             timeline.pause();
-            GUI.displayCart(this.goodsInCart, timeline);
+            this.showPath();
+            GUI.displayCart(this.goodsInCart, timeline, this);
         });
     }
 
@@ -50,8 +52,37 @@ public class Cart {
         }
     }
 
-    public void unloadItems() {
-        return;
+    public  void showPath(){
+        for (int i = 0; i < this.coords.size(); i++){
+            Integer x_path = this.coords.get(i).get('x');
+            Integer y_path = this.coords.get(i).get('y');
+            tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-color: red;");
+        }
+    }
+
+    public  void deletePath(){
+        for (int i = 0; i < this.coords.size(); i++){
+            Integer x_path = this.coords.get(i).get('x');
+            Integer y_path = this.coords.get(i).get('y');
+            tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-color: transparent;");
+        }
+    }
+
+
+    public StringBuilder unloadItems() {
+        StringBuilder text = new StringBuilder("");
+
+        if (goodsInCart.size() == 0) {
+            return text;
+        }
+
+        for (String type: goodsInCart.keySet()) {
+            String amount = goodsInCart.get(type).toString();
+            text.append(type).append(", ").append(amount).append("\n");
+        }
+
+        goodsInCart.clear();
+        return text;
     }
 
     public Integer getRequest(Algorithm alg) {

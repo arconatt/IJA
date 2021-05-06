@@ -27,6 +27,7 @@ public class WarehouseMap {
     private final File map = new File("./data/map.txt");
     private ArrayList<Shelf> shelf;
     private ArrayList<Button> shelfButtons;
+    private  Button start_button ;
 
 
     public ArrayList<Button> getShelfButtons() {
@@ -114,14 +115,15 @@ public class WarehouseMap {
             tile.add(label, x, y);
         }
         else{
-            javafx.scene.control.Label label = new javafx.scene.control.Label(" Start");
-            label.setPrefSize(35,30);
-            label.setStyle("-fx-font-size:10px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
-            label.setContentDisplay(ContentDisplay.CENTER);
-            tile.getChildren().add(label);
+            this.start_button = new Button(" Start");
+            start_button.setPrefSize(35,30);
+            start_button.setStyle("-fx-font-size:8px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
+            start_button.setContentDisplay(ContentDisplay.CENTER);
+            tile.getChildren().add(start_button);
         }
     }
 
-
-
+    public Button getStart_button() {
+        return start_button;
+    }
 }

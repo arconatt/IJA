@@ -23,6 +23,7 @@ public class CartManagement {
     private ArrayList<Button> shelfButtons;
     private ArrayList<Shelf> shelves;
     private GridPane tile;
+    public StringBuilder unloaded = new StringBuilder("");
 
     public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
         this.shelves = goodsShelf;
@@ -102,7 +103,7 @@ public class CartManagement {
     }
 
     Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(0.7), e -> {
+        new KeyFrame(Duration.seconds(0.4), e -> {
             updateCarts();
         })
     );
@@ -121,6 +122,19 @@ public class CartManagement {
         Integer moveres = 0;
 
         if (cart.isHome) {
+            return;
+        }
+
+        if (cart.unloading){
+            cart.noMove();
+            cart.unloading = false;
+            return;
+        }
+
+        if (cart.goHome) {
+            cart.removeCartView();
+            cart.showCart(cart.home.get('x'), cart.home.get('y'));
+            cart.isHome = true;
             return;
         }
 
@@ -211,21 +225,19 @@ public class CartManagement {
                 } else { // is on the start
                     // TODO wait while unloading items
                     cart.isDown = false;
-                    cart.unloadItems();
+                    unloaded.append(cart.unloadItems());
                     Integer reqres = cart.getRequest(alg);
                     while (reqres == -1) {
                         reqres = cart.getRequest(alg);
                     }
+                    cart.unloading = true;
+                    cart.noMove();
+                    return;
                 }
             }
         }
 
-        if (cart.goHome) {
-            cart.removeCartView();
-            cart.showCart(cart.home.get('x'), cart.home.get('y'));
-            cart.isHome = true;
-            return;
-        }
+
 
         // main part
         if (!cart.isDown) {

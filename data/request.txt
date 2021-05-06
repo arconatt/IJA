@@ -3,3 +3,4 @@ Zidle,2
 Skrin,6
 Lampa,1
 Zrcadlo,1
+Police,2

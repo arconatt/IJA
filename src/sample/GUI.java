@@ -23,6 +23,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.beans.EventHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -181,8 +184,15 @@ public class GUI {
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
         goodsShelf =  warehouseMapBuilder.getShelf();
         this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
+        Button new_start = warehouseMapBuilder.getStart_button();
+        new_start.setOnAction(e -> {
+            goodsManager.requestManager.cartManager.timeline.pause();
+            displayStart(goodsManager.requestManager.cartManager.unloaded, goodsManager.requestManager.cartManager.timeline);
+        });
+
         return tile;
     }
+
 
     /**
      * Long text including help for user.
@@ -240,7 +250,7 @@ public class GUI {
 
     }
 
-    public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline)
+    public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline, Cart cart)
     {
         Stage popupwindow = new Stage();
         StringBuilder text = new StringBuilder();
@@ -264,6 +274,7 @@ public class GUI {
 
         button1.setOnAction(e -> {
             timeline.play();
+            cart.deletePath();
             popupwindow.close();
         });
 
@@ -275,6 +286,35 @@ public class GUI {
         popupwindow.showAndWait();
 
     }
+
+
+    public static void displayStart(StringBuilder goodsData, Timeline timeline)
+    {
+        Stage popupwindow = new Stage();
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Goods drop off");
+
+        Label label1= new Label(goodsData.toString());
+
+        ScrollPane root = new ScrollPane();
+        root.setContent(label1);
+
+        Button button1= new Button("Close");
+
+        button1.setOnAction(e -> {
+            timeline.play();
+            popupwindow.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(root, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 300, 250);
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+    }
+
 
     /**
      * Create primary scene of application and secondary scenes for menu buttons.
