@@ -1,18 +1,7 @@
 package sample;
-
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.util.Pair;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Cart {
@@ -22,9 +11,8 @@ public class Cart {
     public HashMap<Character, Integer> home = new HashMap<>();
     private final Integer mapWidth = 25;
     private HashMap<String, Integer> goodsInCart = new HashMap<>();
-    public GoodsToRemove currentlyFetched;
-    public HashMap<String, Integer> toBeFetched;
-
+    public GoodsToRemove currentlyFetched = new GoodsToRemove();
+    public ArrayList<GoodsToRemove> targetCoords;
 
     public boolean isDown = false;
     public boolean onTheWay = false;
@@ -34,9 +22,7 @@ public class Cart {
     public boolean isHome = false;
     public Integer yTarget = -1;
 
-    Button cart1 = new Button();
-
-    ArrayList<GoodsToRemove> targetCoords = new ArrayList<>();
+    private final Button cart1 = new Button();
 
     public Cart(Integer home_x, Integer home_y, GridPane tile, Timeline timeline) {
         this.tile = tile;
@@ -44,6 +30,7 @@ public class Cart {
         this.home.put('y', home_y);
         this.currCoord.put('x', home_x);
         this.currCoord.put('y', home_y);
+        this.targetCoords = new ArrayList<>();
         showCart(home_x, home_y);
         this.cart1.setStyle("-fx-background-image: url('./img/cart.png'); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-border-width: 0; -fx-background-color: transparent;");
         this.cart1.setPrefSize(35,30);
@@ -78,7 +65,6 @@ public class Cart {
             return -1;
         }
         this.targetCoords = target;
-        this.toBeFetched = alg.getItems();
         return 0;
     }
 
@@ -87,7 +73,7 @@ public class Cart {
             return -1;
         }
         coords.add(currCoord);
-        removeCartView(currCoord.get('x'), currCoord.get('y'));
+        removeCartView();
         currCoord.put('x', currCoord.get('x') - 1);
         currCoord.put('y', currCoord.get('y'));
         showCart(currCoord.get('x'), currCoord.get('y'));
@@ -99,7 +85,7 @@ public class Cart {
             return -1;
         }
         coords.add(currCoord);
-        removeCartView(currCoord.get('x'), currCoord.get('y'));
+        removeCartView();
         currCoord.put('x', currCoord.get('x') + 1);
         currCoord.put('y', currCoord.get('y'));
         showCart(currCoord.get('x'), currCoord.get('y'));
@@ -111,7 +97,7 @@ public class Cart {
             return -1;
         }
         coords.add(currCoord);
-        removeCartView(currCoord.get('x'), currCoord.get('y'));
+        removeCartView();
         currCoord.put('x', currCoord.get('x'));
         currCoord.put('y', currCoord.get('y') + 1);
         showCart(currCoord.get('x'), currCoord.get('y'));
@@ -123,7 +109,7 @@ public class Cart {
             return -1;
         }
         coords.add(currCoord);
-        removeCartView(currCoord.get('x'), currCoord.get('y'));
+        removeCartView();
         currCoord.put('x', currCoord.get('x'));
         currCoord.put('y', currCoord.get('y') - 1);
         showCart(currCoord.get('x'), currCoord.get('y'));
@@ -142,7 +128,7 @@ public class Cart {
             tile.add(this.cart1, posX,posY);
     }
 
-    public  void  removeCartView(int posX, int posY){
+    public  void  removeCartView(){
         tile.getChildren().remove(this.cart1);
     }
 

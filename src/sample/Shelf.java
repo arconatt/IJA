@@ -72,7 +72,12 @@ public class Shelf {
      * @return Amount if present, else 0.
      */
     public int searchForItem(String type) {
-        return goodsList.getOrDefault(type, 0);
+        if (this.goodsList.containsKey(type)) {
+            return goodsList.get(type);
+        } else {
+            return 0;
+        }
+//        return goodsList.getOrDefault(type, 0);
     }
 
     /**

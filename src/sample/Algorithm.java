@@ -15,6 +15,7 @@ public class Algorithm {
     private Queue<String> itemsQueue;
     private ArrayList<HashMap<Integer, Button>> columns;
     private HashMap<String, Integer> items;
+    private ArrayList<GoodsToRemove> toBeRemoved = new ArrayList<>();;
 
 
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue) {
@@ -105,6 +106,7 @@ public class Algorithm {
     public ArrayList<Button> findItem(String type, int amount) {
         ArrayList<Button> goods = new ArrayList<>();
         for (int i = 1; i < this.shelves.size(); i++) {
+            GoodsToRemove batch = new GoodsToRemove();
             if (amount <= 0) {
                 return goods;
             }
@@ -117,6 +119,10 @@ public class Algorithm {
 //                    //TODO error
 //                }
                 Button button = shelfButtons.get(id);
+                batch.setAmount(removed);
+                batch.setType(type);
+                batch.setShelfID(id);
+                toBeRemoved.add(batch);
                 goods.add(button);
                 amount -= inStock;
             }
@@ -130,13 +136,13 @@ public class Algorithm {
      * @return Array of coordinates.
      */
     public ArrayList<GoodsToRemove> getTargets() {
+        this.toBeRemoved.clear();
         ArrayList<Button> buttons = getButtons(this.itemsQueue);
         if (buttons == null) {
             return null;
         }
-        ArrayList<GoodsToRemove> coordinates = new ArrayList<>();
         for (int i = 0; i < buttons.size(); i++) {
-            GoodsToRemove batch = new GoodsToRemove();
+
             Button b = buttons.get(i);
             String btext = b.getText();
             Integer id = Integer.valueOf(btext);
@@ -150,15 +156,13 @@ public class Algorithm {
                     } else {
                         x--;
                     }
-                    batch.setX(x);
-                    batch.setY(y);
-                    batch.setShelfID(id);
-                    coordinates.add(batch);
+                    this.toBeRemoved.get(i).setX(x);
+                    this.toBeRemoved.get(i).setY(y);
                     break;
                 }
             }
         }
-        return coordinates;
+        return toBeRemoved;
     }
 
 }
