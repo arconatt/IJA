@@ -204,12 +204,13 @@ public class CartManagement {
                     cart.moveUp();
                 } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
-                    cart.yTarget = -1;
-                    cart.onTheWay = false;
                     // remove from shelf
                     shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     // add to cart
                     cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    cart.yTarget = -1;
+                    cart.onTheWay = false;
+
                 }
                 return;
             }
@@ -273,6 +274,10 @@ public class CartManagement {
                     cart.moveUp();
                 } else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     cart.yTarget = -1;
                     isReqInLine(cart);
                     if (cart.yTarget != -1) {
@@ -280,10 +285,6 @@ public class CartManagement {
                     }
                     cart.onTheWay = false;
                     cart.comingBack = true;
-                    // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
-                    // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                 }
                 return;
             }
@@ -323,6 +324,10 @@ public class CartManagement {
                 }
                 else if (cart.currCoord.get('y').equals(cart.yTarget)) {
                     cart.noMove();
+                    // remove from shelf
+                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+                    // add to cart
+                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
                     cart.yTarget = -1;
                     isReqInLine(cart);
                     if (cart.yTarget != -1) {
@@ -330,10 +335,7 @@ public class CartManagement {
                     }
                     cart.onTheWay = false;
                     cart.comingBack = true;
-                    // remove from shelf
-                    shelves.get(cart.currentlyFetched.getShelfID()).removeItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
-                    // add to cart
-                    cart.loadItems(cart.currentlyFetched.getType(), cart.currentlyFetched.getAmount());
+
                 }
                 return;
             }
