@@ -118,9 +118,9 @@ public class Algorithm {
             int inStock = shelf.searchForItem(type);
             if (inStock != 0) {
                 int id = shelf.getShelfID();
-                if (closed.contains(id)) {
-                    continue;
-                }
+//                if (closed.contains(id)) {
+//                    continue;
+//                }
                 Integer removed = shelf.removeItems(type, amount);
                 Button button = shelfButtons.get(id);
                 batch.setAmount(removed);

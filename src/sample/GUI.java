@@ -13,10 +13,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -38,10 +35,12 @@ import java.util.Scanner;
 public class GUI {
 
     private final File map = new File("./data/map.txt");
-    private Scene scenehelp, scenerequest, scene;
+    private Scene scenehelp, scenerequest, scene, sceneListOfReq;
     private Stage pStage;
     private Goods goodsManager;
     public GridPane tile;
+    public ArrayList<Integer> closed;
+    public ArrayList<String> additionalReq;
 
 //    private Integer activeCart = 0;
 
@@ -64,7 +63,10 @@ public class GUI {
         Button buttonRequest = new Button("Request");
         //TODO: manually add request by user -> some goods in amount x to "Start"
         buttonRequest.setStyle("-fx-font-weight: bold");
-        buttonRequest .setOnAction(e -> pStage.setScene(scenerequest));
+        buttonRequest.setOnAction(e -> {
+            goodsManager.requestManager.cartManager.timeline.pause();
+            displayGoods(goodsManager);
+        });
         buttonRequest .setPrefSize(100, 20);
 
         Button buttonStart = new Button("Play");
@@ -338,6 +340,38 @@ public class GUI {
 
     }
 
+    public static void displayGoods(Goods goodsManager){
+
+
+        Label labelrequestlist = new Label(goodsManager.requestManager.listofGoods());
+        labelrequestlist.setStyle("-fx-font-size:15");
+
+        Stage popupwindow = new Stage();
+
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("List of requested goods");
+
+        Label labeltitle = new Label("List of requested goods:");
+        labeltitle.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
+
+        ScrollPane root = new ScrollPane();
+        root.setContent(labelrequestlist);
+
+        Button button1= new Button("Close");
+
+        button1.setOnAction(e -> {
+            popupwindow.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(root, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 300, 250);
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+    }
+
 
     /**
      * Create primary scene of application and secondary scenes for menu buttons.
@@ -353,15 +387,74 @@ public class GUI {
         scene = new Scene(border, 1150, 750);
 
 
-        primaryStage.setScene(scene);
+        Label add = new Label("Submit additional requests:");
+        add.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
+        Label labelgood = new Label("Type of good:");
+        Label labelamount = new Label("Amount of good:");
+        TextField textField_g = new TextField ();
+        TextField textField_a = new TextField ();
+        Button submit = new Button("Submit");
+        submit.setOnAction(e -> {
+            String req = textField_g.getText();
+            textField_a.clear() ; textField_g.clear();
+        });
+        submit.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
+        //A checkbox without a caption
+        CheckBox cb1 = new CheckBox();
+        CheckBox cb2 = new CheckBox();
+        CheckBox cb3 = new CheckBox();
+        CheckBox cb4 = new CheckBox();
+        CheckBox cb5 = new CheckBox();
+        CheckBox cb6 = new CheckBox();
+        CheckBox cb7 = new CheckBox();
+
+        cb1.setText("1");
+        cb1.setSelected(false);
+        cb2.setText("2");
+        cb2.setSelected(false);
+        cb3.setText("3");
+        cb3.setSelected(false);
+        cb4.setText("4");
+        cb4.setSelected(false);
+        cb5.setText("5");
+        cb5.setSelected(false);
+        cb6.setText("6");
+        cb6.setSelected(false);
+        cb7.setText("7");
+        cb7.setSelected(false);
+
+        HBox hb = new HBox();
+        hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
+        hb.setSpacing(10);
+
+        Label block = new Label("Closed paths :");
+        block.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
+
+        Button closerequestbut = new Button("Done");
+        closerequestbut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
+        closerequestbut.setOnAction(e -> primaryStage.setScene(scene));
+        GridPane layoutrequest = new GridPane();
+        layoutrequest.setHgap(10);
+        layoutrequest.setVgap(10);
+        layoutrequest.setPadding(new Insets(40, 40, 40, 50));
+        layoutrequest.add(add, 0,2);
+        layoutrequest.add(hb, 0,3);
+        layoutrequest.add(block, 0,4);
+        layoutrequest.add(cb1, 0,5);
+        layoutrequest.add(cb2, 0,6);
+        layoutrequest.add(cb3, 0,7);
+        layoutrequest.add(cb4, 0,8);
+        layoutrequest.add(cb5, 0,9);
+        layoutrequest.add(cb6, 0,10);
+        layoutrequest.add(cb7, 0,11);
+        layoutrequest.add(closerequestbut, 0, 14);
+        layoutrequest.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        scenerequest = new Scene(layoutrequest, 1150, 750);
+        primaryStage.setScene(scenerequest);
         primaryStage.setTitle("Warehouse");
-        border.setRight(addVBox());
-        border.setCenter(addAnchorPane());
-        HBox hbox = addHBox();
-        HBox hbox2 = addCredits();
-        border.setTop(hbox);
 
-
+        //Help
         Label labelhelp= new Label(HELP);
         labelhelp.setStyle("-fx-font-size:20");
         Button closebut = new Button("Close");
@@ -372,45 +465,15 @@ public class GUI {
         layouthelp.getChildren().addAll(labelhelp, closebut);
         layouthelp.setAlignment(Pos.CENTER);
 
-        Label labeltitle = new Label("List of requested goods:");
-        labeltitle.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
-        Label labelrequest = new Label(goodsManager.requestManager.listofGoods());
-        labelrequest.setStyle("-fx-font-size:15");
 
-        Label add = new Label("Submit additional requests:");
-        add.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
-        Label labelgood = new Label("Type of good:");
-        Label labelamount = new Label("Amount of good:");
-        TextField textField_g = new TextField ();
-        TextField textField_a = new TextField ();
-        Button submit = new Button("Submit");
-        submit.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
-
-        //clear textfields when submitting goods
-        submit.setOnAction(value -> { textField_a.clear() ; textField_g.clear();});
-
-        HBox hb = new HBox();
-        hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
-        hb.setSpacing(10);
-
-
-        Button closerequestbut = new Button("Close");
-        closerequestbut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
-        closerequestbut.setOnAction(e -> primaryStage.setScene(scene));
-        GridPane layoutrequest = new GridPane();
-        layoutrequest.setHgap(10);
-        layoutrequest.setVgap(10);
-        layoutrequest.setPadding(new Insets(40, 40, 40, 50));
-        layoutrequest.add(labeltitle, 0,0);
-        layoutrequest.add(labelrequest, 0,1);
-        layoutrequest.add(add, 0,2);
-        layoutrequest.add(hb, 0,3);
-        layoutrequest.add(closerequestbut, 1, 3);
-        layoutrequest.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
-
+        border.setRight(addVBox());
+        border.setCenter(addAnchorPane());
+        HBox hbox = addHBox();
+        HBox hbox2 = addCredits();
+        border.setTop(hbox);
 
         scenehelp = new Scene(layouthelp, 1150, 750);
-        scenerequest = new Scene(layoutrequest, 1150, 750);
+
 
         border.setBottom(hbox2);
         primaryStage.show();

@@ -9,6 +9,7 @@
 package sample;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
@@ -26,6 +27,8 @@ public class Goods {
     private String[] goodsType;
     private ArrayList<Shelf> shelf;
     private ArrayList<Pair<Integer, Integer>> currType;
+    private GridPane tile;
+
     /**
      * Manages incoming requests
      */
@@ -37,7 +40,7 @@ public class Goods {
      * @param shelfPar List of shelves.
      */
     public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
-
+        this.tile = tile;
         this.shelf = shelfPar;
         HashMap<String, Object> typesMap = new HashMap<>();
         currType = new ArrayList<>();
@@ -75,6 +78,40 @@ public class Goods {
         requestManager = new Request(tile, goodsShelf, buttonsShelf);
     }
 
-
+    private void closePaths(ArrayList<Integer> closed) {
+        for (int i = 0; i < closed.size(); i++) {
+            int x = 0;
+            switch (closed.get(i)) {
+                case 1:
+                    x = 3;
+                    break;
+                case 2:
+                    x = 6;
+                    break;
+                case 3:
+                    x = 9;
+                    break;
+                case 4:
+                    x = 12;
+                    break;
+                case 5:
+                    x = 15;
+                    break;
+                case 6:
+                    x = 18;
+                    break;
+                case 7:
+                    x = 21;
+                    break;
+                default:
+                    break;
+            }
+            for (int y = 2; y < 12; y++) {
+                Label label = new Label();
+                label.setStyle("-fx-background-image: url('./img/obstacle.jpg');");
+                tile.add(label, x, y);
+            }
+        }
+    }
 
 }
