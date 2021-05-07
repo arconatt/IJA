@@ -42,6 +42,7 @@ public class GUI {
     private Stage pStage;
     private Goods goodsManager;
     public GridPane tile;
+
 //    private Integer activeCart = 0;
 
     /**
@@ -269,8 +270,7 @@ public class GUI {
         layout.setAlignment(Pos.CENTER);
         Scene scene1= new Scene(layout, 500, 350);
         popupwindow.setScene(scene1);
-        popupwindow.showAndWait();
-
+        popupwindow.show();
     }
 
     public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline, Cart cart)

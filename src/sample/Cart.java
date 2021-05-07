@@ -111,7 +111,6 @@ public class Cart {
             return 0;
         }
         if (target.size() == 0) {
-            // item not found
             return -1;
         }
         this.targetCoords = new ArrayList<>();

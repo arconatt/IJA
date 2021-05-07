@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ public class Algorithm {
     private ArrayList<HashMap<Integer, Button>> columns;
     private HashMap<String, Integer> items;
     private ArrayList<GoodsToRemove> toBeRemoved = new ArrayList<>();;
+    private Timeline timeline;
 
 
-    public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue) {
+    public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue, Timeline timeline) {
+        this.timeline = timeline;
         Iterator<Shelf> it = shelves.iterator();
         while (it.hasNext()) {
             Shelf s = it.next();
@@ -108,16 +111,13 @@ public class Algorithm {
         for (int i = 1; i < this.shelves.size(); i++) {
             GoodsToRemove batch = new GoodsToRemove();
             if (amount <= 0) {
-                return goods;
+                break;
             }
             Shelf shelf = this.shelves.get(i);
             int inStock = shelf.searchForItem(type);
             if (inStock != 0) {
                 int id = shelf.getShelfID();
                 Integer removed = shelf.removeItems(type, amount);
-//                if (removed != inStock) {
-//                    //TODO error
-//                }
                 Button button = shelfButtons.get(id);
                 batch.setAmount(removed);
                 batch.setType(type);
@@ -126,6 +126,10 @@ public class Algorithm {
                 goods.add(button);
                 amount -= inStock;
             }
+        }
+        if (amount > 0) {
+            timeline.pause();
+            GUI.displayError("Item " + type + " in amount " + amount + " not found.");
         }
         return goods;
     }

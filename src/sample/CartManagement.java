@@ -41,7 +41,7 @@ public class CartManagement {
         cart5 = new Cart(5, 0, tile, timeline);
         activeCart++;
         fillPaths();
-        this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue);
+        this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue, timeline);
     }
 
     public Integer getActiveCart() {
@@ -103,7 +103,7 @@ public class CartManagement {
     }
 
     Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(0.4), e -> {
+        new KeyFrame(Duration.seconds(0.3), e -> {
             updateCarts();
         })
     );
@@ -223,7 +223,6 @@ public class CartManagement {
                     cart.moveUp();
                     return;
                 } else { // is on the start
-                    // TODO wait while unloading items
                     cart.isDown = false;
                     unloaded.append(cart.unloadItems());
                     Integer reqres = cart.getRequest(alg);
