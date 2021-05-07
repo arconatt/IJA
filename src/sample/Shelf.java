@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class Shelf {
     private int shelfID;
     public HashMap<String, Integer> goodsList;
+    public Integer total = 0;
 
     /**
      * Setter for shelfID, creates the list of goods.
@@ -36,8 +37,20 @@ public class Shelf {
         if (goodsList.containsKey(type)) {
             Integer value = goodsList.get(type);
             value += amount;
+            this.total += value;
+            if (this.total > 50) {
+                String error = "The maximum shelf capacity has been reached. Shelf ID: " + shelfID + ".\nItem " + type + " has been discarded.";
+                GUI.displayError(error);
+                return;
+            }
             goodsList.put(type, value);
         } else {
+            this.total += amount;
+            if (this.total > 50) {
+                String error = "The maximum shelf capacity has been reached. Shelf ID: " + shelfID + ".\nItem " + type + " has been discarded.";
+                GUI.displayError(error);
+                return;
+            }
             goodsList.put(type, amount);
         }
     }

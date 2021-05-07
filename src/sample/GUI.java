@@ -250,6 +250,29 @@ public class GUI {
 
     }
 
+    public static void displayError(String error)
+    {
+        Stage popupwindow = new Stage();
+
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Error");
+        Label label1= new Label(error);
+        ScrollPane root = new ScrollPane();
+        root.setContent(label1);
+        Button button1= new Button("Close");
+        button1.setOnAction(e -> {
+            popupwindow.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(root, button1);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 500, 350);
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+    }
+
     public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline, Cart cart)
     {
         Stage popupwindow = new Stage();
