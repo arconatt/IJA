@@ -18,11 +18,18 @@ public class Algorithm {
     private HashMap<String, Integer> items;
     private ArrayList<GoodsToRemove> toBeRemoved = new ArrayList<>();;
     private Timeline timeline;
-    private ArrayList<Integer> closed;
+    private ArrayList<Integer> closed = new ArrayList<>();
 
 
-    public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue, Timeline timeline) {
+    public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue, Timeline timeline, ArrayList<Integer> closedPath) {
         this.timeline = timeline;
+        for (int i = 0; i < closedPath.size(); i++) {
+            HashMap<Integer, Button> currentPath = columns.get(closedPath.get(i));
+            Iterator it = currentPath.keySet().iterator();
+            while (it.hasNext()) {
+                this.closed.add((Integer)it.next());
+            }
+        }
         Iterator<Shelf> it = shelves.iterator();
         while (it.hasNext()) {
             Shelf s = it.next();
@@ -118,9 +125,9 @@ public class Algorithm {
             int inStock = shelf.searchForItem(type);
             if (inStock != 0) {
                 int id = shelf.getShelfID();
-//                if (closed.contains(id)) {
-//                    continue;
-//                }
+                if (closed.contains(id)) {
+                    continue;
+                }
                 Integer removed = shelf.removeItems(type, amount);
                 Button button = shelfButtons.get(id);
                 batch.setAmount(removed);

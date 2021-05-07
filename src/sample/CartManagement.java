@@ -25,7 +25,7 @@ public class CartManagement {
     private GridPane tile;
     public StringBuilder unloaded = new StringBuilder("");
 
-    public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
+    public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<Integer> closed) {
         this.shelves = goodsShelf;
         this.shelfButtons = buttonsShelf;
         this.tile = tile;
@@ -41,7 +41,7 @@ public class CartManagement {
         cart5 = new Cart(5, 0, tile, timeline);
         activeCart++;
         fillPaths();
-        this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue, timeline);
+        this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue, timeline, closed);
     }
 
     public Integer getActiveCart() {
@@ -111,6 +111,7 @@ public class CartManagement {
     // list souradnic od algoritmu
     // posune vsechny voziky o 1 policko
     public void updateCarts() {
+        // TODO pricitat cas a pak ho zobrazovat
         cartBehaviour(cart1);
         cartBehaviour(cart2);
         cartBehaviour(cart3);

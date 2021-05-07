@@ -8,6 +8,7 @@
  */
 package sample;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -28,6 +29,7 @@ public class Goods {
     private ArrayList<Shelf> shelf;
     private ArrayList<Pair<Integer, Integer>> currType;
     private GridPane tile;
+    private Integer mapWidth = 25;
 
     /**
      * Manages incoming requests
@@ -39,7 +41,7 @@ public class Goods {
      *
      * @param shelfPar List of shelves.
      */
-    public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
+    public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed) {
         this.tile = tile;
         this.shelf = shelfPar;
         HashMap<String, Object> typesMap = new HashMap<>();
@@ -75,7 +77,10 @@ public class Goods {
             e.printStackTrace();
         }
 
-        requestManager = new Request(tile, goodsShelf, buttonsShelf);
+        requestManager = new Request(tile, goodsShelf, buttonsShelf, additionalReq, closed);
+        if (closed.size() != 0) {
+            closePaths(closed);
+        }
     }
 
     private void closePaths(ArrayList<Integer> closed) {
@@ -107,9 +112,8 @@ public class Goods {
                     break;
             }
             for (int y = 2; y < 12; y++) {
-                Label label = new Label();
+                Node label = tile.getChildren().get(y * mapWidth + x);
                 label.setStyle("-fx-background-image: url('./img/obstacle.jpg');");
-                tile.add(label, x, y);
             }
         }
     }

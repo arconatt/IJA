@@ -25,11 +25,17 @@ public class Request {
     private ArrayList<String> listOfReqGoods = new ArrayList<>();
     public Queue<String> reqOneItem;
     public CartManagement cartManager;
+    public GridPane tile;
+    public ArrayList<Shelf> goodsShelf;
+    public ArrayList<Button> buttonsShelf;
 
     /**
      * Load requests from file.
      */
-    public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf) {
+    public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed) {
+        this.tile = tile;
+        this.goodsShelf = goodsShelf;
+        this.buttonsShelf = buttonsShelf;
         try {
             Scanner myReader = new Scanner(request);
             while (myReader.hasNextLine()) {
@@ -42,10 +48,11 @@ public class Request {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        // TODO add additional requests
+        listOfReqGoods.addAll(additionalReq);
         this.divideGoods(listOfReqGoods);
-        this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf);
+        this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf, closed);
     }
+
 
     /**
      * Take the requests and add the separate items to a queue.

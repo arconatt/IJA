@@ -39,8 +39,8 @@ public class GUI {
     private Stage pStage;
     private Goods goodsManager;
     public GridPane tile;
-    public ArrayList<Integer> closed;
-    public ArrayList<String> additionalReq;
+    public ArrayList<Integer> closed = new ArrayList<>();
+    public ArrayList<String> additionalReq = new ArrayList<>();
 
 //    private Integer activeCart = 0;
 
@@ -57,11 +57,13 @@ public class GUI {
 
         Button buttonHelp = new Button("Help");
         buttonHelp.setStyle("-fx-font-weight: bold");
-        buttonHelp.setOnAction(e -> pStage.setScene(scenehelp));
+        buttonHelp.setOnAction(e -> {
+            goodsManager.requestManager.cartManager.timeline.pause();
+            pStage.setScene(scenehelp);
+        });
         buttonHelp.setPrefSize(100, 20);
 
         Button buttonRequest = new Button("Request");
-        //TODO: manually add request by user -> some goods in amount x to "Start"
         buttonRequest.setStyle("-fx-font-weight: bold");
         buttonRequest.setOnAction(e -> {
             goodsManager.requestManager.cartManager.timeline.pause();
@@ -186,7 +188,7 @@ public class GUI {
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
         goodsShelf =  warehouseMapBuilder.getShelf();
-        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf);
+        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf, this.additionalReq, this.closed);
         Button new_start = warehouseMapBuilder.getStart_button();
         new_start.setOnAction(e -> {
             goodsManager.requestManager.cartManager.timeline.pause();
@@ -379,9 +381,6 @@ public class GUI {
      * @param primaryStage Scene of warehouse.
      */
     public GUI(Stage primaryStage) {
-        /**
-         *
-         */
         BorderPane border = new BorderPane();
         pStage = primaryStage;
         scene = new Scene(border, 1150, 750);
@@ -395,7 +394,8 @@ public class GUI {
         TextField textField_a = new TextField ();
         Button submit = new Button("Submit");
         submit.setOnAction(e -> {
-            String req = textField_g.getText();
+            String req = textField_g.getText() + "," + textField_a.getText();
+            this.additionalReq.add(req);
             textField_a.clear() ; textField_g.clear();
         });
         submit.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
@@ -423,6 +423,7 @@ public class GUI {
         cb7.setText("7");
         cb7.setSelected(false);
 
+
         HBox hb = new HBox();
         hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
         hb.setSpacing(10);
@@ -432,7 +433,7 @@ public class GUI {
 
         Button closerequestbut = new Button("Done");
         closerequestbut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
-        closerequestbut.setOnAction(e -> primaryStage.setScene(scene));
+
         GridPane layoutrequest = new GridPane();
         layoutrequest.setHgap(10);
         layoutrequest.setVgap(10);
@@ -466,16 +467,28 @@ public class GUI {
         layouthelp.setAlignment(Pos.CENTER);
 
 
-        border.setRight(addVBox());
-        border.setCenter(addAnchorPane());
-        HBox hbox = addHBox();
-        HBox hbox2 = addCredits();
-        border.setTop(hbox);
+
 
         scenehelp = new Scene(layouthelp, 1150, 750);
 
+        closerequestbut.setOnAction(e -> {
+            if (cb1.isSelected()) {this.closed.add(1);}
+            if (cb2.isSelected()) {this.closed.add(2);}
+            if (cb3.isSelected()) {this.closed.add(3);}
+            if (cb4.isSelected()) {this.closed.add(4);}
+            if (cb5.isSelected()) {this.closed.add(5);}
+            if (cb6.isSelected()) {this.closed.add(6);}
+            if (cb7.isSelected()) {this.closed.add(7);}
+            border.setRight(addVBox());
+            border.setCenter(addAnchorPane());
+            HBox hbox = addHBox();
+            HBox hbox2 = addCredits();
+            border.setTop(hbox);
+            border.setBottom(hbox2);
+            primaryStage.setScene(scene);
+        });
 
-        border.setBottom(hbox2);
+
         primaryStage.show();
     }
 
