@@ -26,6 +26,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         GUI app_gui = new GUI(primaryStage);
     }
 }

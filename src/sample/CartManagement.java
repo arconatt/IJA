@@ -17,6 +17,8 @@ public class CartManagement {
     public Integer activeCart = 0;
     private final Integer mapHeight = 13;
     private final Integer mapWidth = 25;
+    public Integer time = 0;
+    public GUI gui;
 
 
     Algorithm alg;
@@ -25,28 +27,19 @@ public class CartManagement {
     private GridPane tile;
     public StringBuilder unloaded = new StringBuilder("");
 
-    public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<Integer> closed) {
+    public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<Integer> closed, GUI gui) {
         this.shelves = goodsShelf;
         this.shelfButtons = buttonsShelf;
         this.tile = tile;
+        this.gui = gui;
 
         cart1 = new Cart(1, 0, tile, timeline);
-        activeCart++;
         cart2 = new Cart(2, 0, tile, timeline);
-        activeCart++;
         cart3 = new Cart(3, 0, tile, timeline);
-        activeCart++;
         cart4 = new Cart(4, 0, tile, timeline);
-        activeCart++;
         cart5 = new Cart(5, 0, tile, timeline);
-        activeCart++;
         fillPaths();
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue, timeline, closed);
-    }
-
-    public Integer getActiveCart() {
-        System.out.println(activeCart);
-        return activeCart;
     }
 
     public void fillPaths() {
@@ -103,8 +96,10 @@ public class CartManagement {
     }
 
     Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(0.3), e -> {
+        new KeyFrame(Duration.seconds(1), e -> {
             updateCarts();
+            gui.setActiveCarts(activeCart);
+            gui.setTime(time);
         })
     );
 
@@ -117,6 +112,7 @@ public class CartManagement {
         cartBehaviour(cart3);
         cartBehaviour(cart4);
         cartBehaviour(cart5);
+        this.time++;
     }
 
     public void cartBehaviour(Cart cart) {
@@ -133,6 +129,7 @@ public class CartManagement {
         }
 
         if (cart.goHome) {
+            this.activeCart--;
             cart.removeCartView();
             cart.showCart(cart.home.get('x'), cart.home.get('y'));
             cart.isHome = true;
@@ -153,6 +150,7 @@ public class CartManagement {
             }
             if (cart.currCoord.get('x') == 1) {
                 cart.moveDown();
+                this.activeCart++;
             } else {
                 cart.moveLeft();
             }

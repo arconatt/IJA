@@ -4,3 +4,8 @@ Skrin,6
 Lampa,1
 Zrcadlo,1
 Police,2
+Okno,3
+Lampa,2
+Radiator,6
+Pohovka,2
+Dvere,1

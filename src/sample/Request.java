@@ -32,7 +32,7 @@ public class Request {
     /**
      * Load requests from file.
      */
-    public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed) {
+    public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed, GUI gui) {
         this.tile = tile;
         this.goodsShelf = goodsShelf;
         this.buttonsShelf = buttonsShelf;
@@ -50,7 +50,7 @@ public class Request {
         }
         listOfReqGoods.addAll(additionalReq);
         this.divideGoods(listOfReqGoods);
-        this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf, closed);
+        this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf, closed, gui);
     }
 
 

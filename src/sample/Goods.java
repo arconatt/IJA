@@ -30,6 +30,7 @@ public class Goods {
     private ArrayList<Pair<Integer, Integer>> currType;
     private GridPane tile;
     private Integer mapWidth = 25;
+    private Integer ItemsAmount = 0;
 
     /**
      * Manages incoming requests
@@ -41,7 +42,7 @@ public class Goods {
      *
      * @param shelfPar List of shelves.
      */
-    public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed) {
+    public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed, GUI gui) {
         this.tile = tile;
         this.shelf = shelfPar;
         HashMap<String, Object> typesMap = new HashMap<>();
@@ -66,6 +67,8 @@ public class Goods {
                 String[] goodsParam = data.split(",", 2);
                 Integer shelfID = Integer.parseInt(goodsParam[0]);
                 Integer goodsAmount = Integer.parseInt(goodsParam[1]);
+                this.ItemsAmount = this.ItemsAmount + goodsAmount;
+                gui.setWarehouseMax(ItemsAmount);
                 Shelf actualShelf = this.shelf.get(shelfID);
                 actualShelf.addItems(goodsType[1], goodsAmount);
                 Pair<Integer,Integer> amountInShelf = new Pair<>(shelfID, goodsAmount);
@@ -77,7 +80,7 @@ public class Goods {
             e.printStackTrace();
         }
 
-        requestManager = new Request(tile, goodsShelf, buttonsShelf, additionalReq, closed);
+        requestManager = new Request(tile, goodsShelf, buttonsShelf, additionalReq, closed, gui);
         if (closed.size() != 0) {
             closePaths(closed);
         }

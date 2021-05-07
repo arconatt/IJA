@@ -10,6 +10,7 @@ package sample;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Timer;
 
 /**
  * Class to define general user interface and its methods.
@@ -41,6 +43,11 @@ public class GUI {
     public GridPane tile;
     public ArrayList<Integer> closed = new ArrayList<>();
     public ArrayList<String> additionalReq = new ArrayList<>();
+    public Label[] VBoxOptions;
+    public Integer mins = 0, secs = 0;
+    public Integer WarehouseMax = 8000;
+    public String value;
+    public Integer finalspeed = 1;
 
 //    private Integer activeCart = 0;
 
@@ -122,18 +129,18 @@ public class GUI {
         title.setStyle("-fx-font-size:25; -fx-font-weight: bold");
         vbox.getChildren().add(title);
 
-//        this.activeCart = cartManager.getActiveCart();
-//        System.out.println(this.activeCart);
 
-        Label options[] = new Label[] {
+
+        Label options[] = new Label[]{
                 new Label("Active trolleys"),
-                new Label("tu bude 5 vacsinou"),
+                new Label("0"),
                 new Label("Filling of warehouse"),
-                new Label("160 shelf * 50 zbozi je 100%"),
+                new Label("default"),
                 new Label("Time"),
-                new Label("tu bude timer"),
+                new Label("00:00"),
                 new Label("Speed"),
-                new Label("I am speed")};
+                new Label(value),
+        };
 
 
         options[0].setStyle("-fx-font-weight: bold");
@@ -149,6 +156,7 @@ public class GUI {
         options[7].setPrefSize(120,60);
         options[7].setStyle("-fx-border-style: solid");
 
+
         for (int i=0; i<8; i++) {
             options[i].setAlignment(Pos.CENTER);
             VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
@@ -156,9 +164,34 @@ public class GUI {
         }
 
 
-
+        this.VBoxOptions = options;
         return vbox;
     }
+
+    public void setActiveCarts(Integer active) {
+        this.VBoxOptions[1].setText(active.toString());
+    }
+
+    public void setTime(Integer time) {
+        if (goodsManager.requestManager.cartManager.time != 60){
+            this.secs = goodsManager.requestManager.cartManager.time;
+        }
+        else{
+            this.secs = 0;
+            goodsManager.requestManager.cartManager.time = 0;
+            this.mins++;
+        }
+
+        this.VBoxOptions[5].setText(mins + ":" + secs);
+    }
+
+
+
+    public void setWarehouseMax(Integer max) {
+        Integer filling = (max * 100 ) / WarehouseMax;
+        this.VBoxOptions[3].setText(max.toString() + " items in stock, \n" + filling.toString() + "% fulfillment" );
+    }
+
 
     /**
      * Create parent for map layout.
@@ -188,7 +221,7 @@ public class GUI {
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
         goodsShelf =  warehouseMapBuilder.getShelf();
-        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf, this.additionalReq, this.closed);
+        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf, this.additionalReq, this.closed, this);
         Button new_start = warehouseMapBuilder.getStart_button();
         new_start.setOnAction(e -> {
             goodsManager.requestManager.cartManager.timeline.pause();
@@ -203,22 +236,16 @@ public class GUI {
      * Long text including help for user.
      */
     private static final String HELP =
-            "GUI aplikacie Warehouse:\n" +
+            "GUI application Warehouse:\n" +
             "1. \n" +
-            "Po kliknuti na lubovolny regal sa zobrazi jeho obsah (napr. 10, 12, 180, 305),\n" +
-            "(pri prazdnom regali sa zobrazi informacia pre uzivatela: empty shelf (napr. 2, 15).\n" +
+            "After clicking on arbitrary shelf, its content is displayed,\n" +
+            "(when the shelf is empty appears the popup window with : empty shelf.\n" +
             "2. \n" +
-            "Po kliknuti na tlacitko Request sa zobrazi aktualny zoznam pozadovanych poloziek a formular na vkladanie novych.\n" +
-            "(vkladanie aktualne implementovane ako vymazanie Textfieldu) \n" +
+            "After clicking on request button, current request list is displayed.\n" +
             "3. \n" +
-            "Prava sekcia bude zobrazovat aktualne informacie o sklade s moznostou editacie rychlosti pohybu vozikov.\n" +
-            "(momentalne neimplementovane) \n" +
+            "Right section shows current information about the stock (active carts, speed, time and fulfillness of stock).\n" +
             "4. \n" +
-            "Tlacidla Start a Restart budu po stlaceni spustat vykonavanie requestov vozikmi.\n" +
-            "(momentalne neimplementovane) \n" +
-            "Na vyskusanie: \n * Zmena pozadovanych poloziek data/request.txt: \n riadok v tvare typ a mnozstvo rozdelene ciarkou.\n" +
-            " * Zmena poloziek v sklade data/goods.txt: \n 1. riadok v tvare \"Typ:polozka\", kazdy dalsi riadok pod polozkou v tvare \"shelfID,pocet\"";
-
+            "Start button starts the demonstration and Pause button pauses it.\n";
     /**
      * Display popup window with title of shelf and scrollpane of containing goods.
      *
@@ -301,6 +328,7 @@ public class GUI {
 
         button1.setOnAction(e -> {
             timeline.play();
+
             cart.deletePath();
             popupwindow.close();
         });
@@ -385,6 +413,8 @@ public class GUI {
         pStage = primaryStage;
         scene = new Scene(border, 1150, 750);
 
+        Label app = new Label("WAREHOUSE APP");
+        app.setStyle("-fx-font-size:30; -fx-font-weight: bold; -fx-text-fill: #336699");
 
         Label add = new Label("Submit additional requests:");
         add.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
@@ -428,16 +458,28 @@ public class GUI {
         hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
         hb.setSpacing(10);
 
-        Label block = new Label("Closed paths :");
+        Label block = new Label("Closed paths:");
         block.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
 
+        Label speedlabel = new Label("Speed:");
+        speedlabel.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
+        ComboBox comboBox = new ComboBox();
+
+        comboBox.getItems().add("1");
+        comboBox.getItems().add("0.7");
+        comboBox.getItems().add("0.5");
+        comboBox.getItems().add("0.3");
+
+
         Button closerequestbut = new Button("Done");
+        closerequestbut.setPrefSize(70,50);
         closerequestbut.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #336699");
 
         GridPane layoutrequest = new GridPane();
         layoutrequest.setHgap(10);
         layoutrequest.setVgap(10);
         layoutrequest.setPadding(new Insets(40, 40, 40, 50));
+        layoutrequest.add(app, 0,1);
         layoutrequest.add(add, 0,2);
         layoutrequest.add(hb, 0,3);
         layoutrequest.add(block, 0,4);
@@ -448,7 +490,9 @@ public class GUI {
         layoutrequest.add(cb5, 0,9);
         layoutrequest.add(cb6, 0,10);
         layoutrequest.add(cb7, 0,11);
-        layoutrequest.add(closerequestbut, 0, 14);
+        layoutrequest.add(speedlabel, 0,12);
+        layoutrequest.add(comboBox, 0,13);
+        layoutrequest.add(closerequestbut, 0, 15);
         layoutrequest.setBackground(new Background(new BackgroundFill(Color.rgb(135, 206, 235), CornerRadii.EMPTY, Insets.EMPTY)));
 
         scenerequest = new Scene(layoutrequest, 1150, 750);
@@ -479,6 +523,11 @@ public class GUI {
             if (cb5.isSelected()) {this.closed.add(5);}
             if (cb6.isSelected()) {this.closed.add(6);}
             if (cb7.isSelected()) {this.closed.add(7);}
+
+            value = (String) comboBox.getValue();
+//            finalspeed = Integer.parseInt(value);
+
+
             border.setRight(addVBox());
             border.setCenter(addAnchorPane());
             HBox hbox = addHBox();
