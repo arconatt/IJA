@@ -42,6 +42,7 @@ public class Request {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        // TODO add additional requests
         this.divideGoods(listOfReqGoods);
         this.cartManager = new CartManagement(tile, reqOneItem, goodsShelf, buttonsShelf);
     }

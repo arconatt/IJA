@@ -18,6 +18,7 @@ public class Algorithm {
     private HashMap<String, Integer> items;
     private ArrayList<GoodsToRemove> toBeRemoved = new ArrayList<>();;
     private Timeline timeline;
+    private ArrayList<Integer> closed;
 
 
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue, Timeline timeline) {
@@ -117,6 +118,9 @@ public class Algorithm {
             int inStock = shelf.searchForItem(type);
             if (inStock != 0) {
                 int id = shelf.getShelfID();
+                if (closed.contains(id)) {
+                    continue;
+                }
                 Integer removed = shelf.removeItems(type, amount);
                 Button button = shelfButtons.get(id);
                 batch.setAmount(removed);
