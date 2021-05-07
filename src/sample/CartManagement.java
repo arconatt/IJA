@@ -19,7 +19,7 @@ public class CartManagement {
     private final Integer mapWidth = 25;
     public Integer time = 0;
     public GUI gui;
-
+    public Timeline timeline;
 
     Algorithm alg;
     private ArrayList<Button> shelfButtons;
@@ -32,7 +32,7 @@ public class CartManagement {
         this.shelfButtons = buttonsShelf;
         this.tile = tile;
         this.gui = gui;
-
+        tl();
         cart1 = new Cart(1, 0, tile, timeline);
         cart2 = new Cart(2, 0, tile, timeline);
         cart3 = new Cart(3, 0, tile, timeline);
@@ -95,18 +95,20 @@ public class CartManagement {
         }
     }
 
-    Timeline timeline = new Timeline(
-        new KeyFrame(Duration.seconds(1), e -> {
-            updateCarts();
-            gui.setActiveCarts(activeCart);
-            gui.setTime(time);
-        })
-    );
+    private void tl() {
+        this.timeline = new Timeline(
+                new KeyFrame(Duration.seconds(gui.getFinalspeed()), e -> {
+                    updateCarts();
+                    gui.setActiveCarts(activeCart);
+                    gui.setTime(time);
+                })
+        );
+    }
+
 
     // list souradnic od algoritmu
     // posune vsechny voziky o 1 policko
     public void updateCarts() {
-        // TODO pricitat cas a pak ho zobrazovat
         cartBehaviour(cart1);
         cartBehaviour(cart2);
         cartBehaviour(cart3);

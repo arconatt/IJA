@@ -47,7 +47,7 @@ public class GUI {
     public Integer mins = 0, secs = 0;
     public Integer WarehouseMax = 8000;
     public String value;
-    public Integer finalspeed = 1;
+    public Double finalspeed = 1.0;
 
 //    private Integer activeCart = 0;
 
@@ -216,7 +216,7 @@ public class GUI {
         tile.setVgap(4);
         tile.setHgap(4);
 
-        WarehouseMap warehouseMapBuilder = new WarehouseMap(tile); // TODO work with timeline when opening shelves
+        WarehouseMap warehouseMapBuilder = new WarehouseMap(tile);
         ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
@@ -402,6 +402,9 @@ public class GUI {
 
     }
 
+    public Double getFinalspeed() {
+        return finalspeed;
+    }
 
     /**
      * Create primary scene of application and secondary scenes for menu buttons.
@@ -525,8 +528,7 @@ public class GUI {
             if (cb7.isSelected()) {this.closed.add(7);}
 
             value = (String) comboBox.getValue();
-//            finalspeed = Integer.parseInt(value);
-
+            finalspeed = Double.valueOf(value);
 
             border.setRight(addVBox());
             border.setCenter(addAnchorPane());
