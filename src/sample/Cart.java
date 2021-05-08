@@ -52,7 +52,7 @@ public class Cart {
         this.currCoord.put('y', home_y);
         this.targetCoords = new ArrayList<>();
         showCart(home_x, home_y);
-        this.cart1.setStyle("-fx-background-image: url('./img/cart.png'); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-border-width: 0; -fx-background-color: transparent;");
+        this.cart1.setStyle("-fx-background-image: url('/img/cart.png'); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-border-width: 0; -fx-background-color: transparent;");
         this.cart1.setPrefSize(35,30);
         cart1.setOnAction(e -> {
             timeline.pause();
@@ -85,19 +85,19 @@ public class Cart {
             Integer y_path = this.coords.get(i).get('y');
             switch (getCartId()) {
                 case 1:
-                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/red.png');");
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('/img/red.png');");
                     break;
                 case 2:
-                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/blue.png');");
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('/img/blue.png');");
                     break;
                 case 3:
-                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/green.png');");
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('/img/green.png');");
                     break;
                 case 4:
-                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/purple.png');");
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('/img/purple.png');");
                     break;
                 case 5:
-                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('./img/yellow.png');");
+                    tile.getChildren().get(x_path + this.mapWidth * y_path).setStyle("-fx-background-image: url('/img/yellow.png');");
                     break;
             }
         }

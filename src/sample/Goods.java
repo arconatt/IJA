@@ -124,7 +124,7 @@ public class Goods {
             }
             for (int y = 2; y < 12; y++) {
                 Node label = tile.getChildren().get(y * mapWidth + x);
-                label.setStyle("-fx-background-image: url('./img/obstacle.jpg');");
+                label.setStyle("-fx-background-image: url('/img/obstacle.jpg');");
             }
         }
     }
