@@ -1,3 +1,12 @@
+/**
+ * Algorithm searching for goods.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
+
 package sample;
 
 import javafx.animation.Timeline;
@@ -9,6 +18,9 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.Queue;
 
+/*
+ * Algorithm searching for goods.
+ */
 public class Algorithm {
     private GridPane tile;
     private ArrayList<Shelf> shelves = new ArrayList<>();
@@ -20,7 +32,16 @@ public class Algorithm {
     private Timeline timeline;
     private ArrayList<Integer> closed = new ArrayList<>();
 
-
+    /**
+     * Algorithm constructor.
+     * @param tile GridPane map.
+     * @param shelves ArrayList of shelves in warehouse.
+     * @param shelfButtons ArrayList of corresponding buttons representing the shelves.
+     * @param columns Shelves in individual paths.
+     * @param itemsQueue Queue of requested items.
+     * @param timeline Timeline animation.
+     * @param closedPath List of closed paths.
+     */
     public Algorithm(GridPane tile, ArrayList<Shelf> shelves, ArrayList<Button> shelfButtons, ArrayList<HashMap<Integer, Button>> columns, Queue<String> itemsQueue, Timeline timeline, ArrayList<Integer> closedPath) {
         this.timeline = timeline;
         for (int i = 0; i < closedPath.size(); i++) {
@@ -53,14 +74,18 @@ public class Algorithm {
         this.columns = columns;
     }
 
+    /**
+     * Items getter.
+     * @return HashMap of items.
+     */
     public HashMap<String, Integer> getItems() {
         return items;
     }
 
     /**
-     *
-     * @param itemsQueue
-     * @return
+     * Gets maximum five of requested items from a queue.
+     * @param itemsQueue Queue of requested items.
+     * @return HashMap with goods in maximum amount of 5.
      */
     public HashMap<String, Integer> getItems(Queue<String> itemsQueue) {
         HashMap<String, Integer> cartRequests = new HashMap<>();
@@ -85,11 +110,10 @@ public class Algorithm {
         return cartRequests;
     }
 
-
     /**
      * Gets the buttons (=shelves) containing all the needed goods.
-     *
-     * @return
+     * @param itemsQueue Queue of requested items.
+     * @return ArrayList of buttons ( = shelves) containing all the needed goods.
      */
     public ArrayList<Button> getButtons(Queue<String> itemsQueue) {
         HashMap<String, Integer> cartreq = getItems(itemsQueue);

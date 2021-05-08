@@ -29,13 +29,12 @@ public class WarehouseMap {
     private ArrayList<Button> shelfButtons;
     private  Button start_button ;
 
-
+    /**
+     * Shelf buttons getter.
+     * @return List of buttons corresponding to shelves.
+     */
     public ArrayList<Button> getShelfButtons() {
         return shelfButtons;
-    }
-
-    public ArrayList<Shelf> getShelf() {
-        return shelf;
     }
 
     /**
@@ -89,11 +88,13 @@ public class WarehouseMap {
     }
 
     /**
-     * Fuction to generate shelfs, path and startin position .
+     * Fuction to generate shelves, path and starting position .
      *
      * @param tile Layout in which map will appear.
      * @param SID Shelf number.
      * @param isButton Integer value of button (1 == shelf, 0 == path, 2 == start)
+     * @param x X coordinate.
+     * @param y Y coordinate.
      */
     private void GenerateCell(GridPane tile, int SID, Integer isButton, int x, int y){
         // create button (shelf) or label (path) based on map.txt
@@ -115,14 +116,18 @@ public class WarehouseMap {
             tile.add(label, x, y);
         }
         else{
-            this.start_button = new Button(" Start");
+            this.start_button = new Button(" Drop \n off");
             start_button.setPrefSize(35,30);
-            start_button.setStyle("-fx-font-size:8px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
+            start_button.setStyle("-fx-font-size:7px; -fx-font-weight: bold; -fx-margin:0; -fx-background-color: #D2B48C");
             start_button.setContentDisplay(ContentDisplay.CENTER);
             tile.getChildren().add(start_button);
         }
     }
 
+    /**
+     * Start button getter.
+     * @return Start (drop off) button.
+     */
     public Button getStart_button() {
         return start_button;
     }

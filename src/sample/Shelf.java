@@ -90,12 +90,10 @@ public class Shelf {
         } else {
             return 0;
         }
-//        return goodsList.getOrDefault(type, 0);
     }
 
     /**
      * Prints goods in the current shelf.
-     *
      * @return String of present goods.
      */
     public String getShelfData() {
@@ -106,6 +104,10 @@ public class Shelf {
         return retval;
     }
 
+    /**
+     * Shelf ID getter.
+     * @return Shelf ID.
+     */
     public int getShelfID() {
         return shelfID;
     }

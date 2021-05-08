@@ -1,9 +1,21 @@
+/**
+ * Logic for one cart.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
+
 package sample;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import java.util.*;
 
+/**
+ * Logic for one cart.
+ */
 public class Cart {
     private ArrayList<HashMap<Character, Integer>> coords = new ArrayList<>();
     public HashMap<Character, Integer> currCoord = new HashMap<>();
@@ -25,6 +37,13 @@ public class Cart {
 
     private final Button cart1 = new Button();
 
+    /**
+     * Cart constructor.
+     * @param home_x X coordinate of cart's home.
+     * @param home_y Y coordinate of cart's home.
+     * @param tile GridPane map.
+     * @param timeline Timeline animation.
+     */
     public Cart(Integer home_x, Integer home_y, GridPane tile, Timeline timeline) {
         this.tile = tile;
         this.home.put('x', home_x);
@@ -42,6 +61,11 @@ public class Cart {
         });
     }
 
+    /**
+     * Loads items from a shelf into the cart.
+     * @param type Type of goods.
+     * @param amount Amount of goods.
+     */
     public void loadItems(String type, Integer amount) {
         if (goodsInCart.containsKey(type)) {
             Integer mapAmount = goodsInCart.get(type);
@@ -52,6 +76,9 @@ public class Cart {
         }
     }
 
+    /**
+     * Shows the covered route of the cart.
+     */
     public  void showPath(){
         for (int i = 0; i < this.coords.size(); i++){
             Integer x_path = this.coords.get(i).get('x');
@@ -76,6 +103,9 @@ public class Cart {
         }
     }
 
+    /**
+     * Removes the covered route of the cart.
+     */
     public  void deletePath(){
         for (int i = 0; i < this.coords.size(); i++){
             Integer x_path = this.coords.get(i).get('x');
@@ -84,10 +114,18 @@ public class Cart {
         }
     }
 
+    /**
+     * Cart ID getter.
+     * @return Cart ID.
+     */
     public Integer getCartId() {
         return home.get('x');
     }
 
+    /**
+     * Unloads item on the goods drop off.
+     * @return List of dropped off goods in text format.
+     */
     public StringBuilder unloadItems() {
         StringBuilder text = new StringBuilder("");
 
@@ -104,6 +142,11 @@ public class Cart {
         return text;
     }
 
+    /**
+     * Gets the next request for the cart.
+     * @param alg Item searching algorithm.
+     * @return -1 if no item was found, else 0.
+     */
     public Integer getRequest(Algorithm alg) {
         ArrayList<GoodsToRemove> target;
         if ((target = alg.getTargets()) == null) {
@@ -121,6 +164,10 @@ public class Cart {
         return 0;
     }
 
+    /**
+     * Moves the cart to the left.
+     * @return 0 if successful.
+     */
     public Integer moveLeft(){
         if (tile.getChildren().get(currCoord.get('y') * this.mapWidth + (currCoord.get('x') - 1)) instanceof Button) {
             return -1;
@@ -136,6 +183,10 @@ public class Cart {
         return 0;
     }
 
+    /**
+     * Moves the cart to the right.
+     * @return 0 if successful.
+     */
     public Integer moveRight() {
         if (tile.getChildren().get(currCoord.get('y') * this.mapWidth + (currCoord.get('x') + 1)) instanceof Button) {
             return -1;
@@ -151,6 +202,10 @@ public class Cart {
         return 0;
     }
 
+    /**
+     * Moves the cart to the bottom.
+     * @return 0 if successful.
+     */
     public Integer moveDown() {
         if (tile.getChildren().get((currCoord.get('y') + 1) * this.mapWidth + currCoord.get('x')) instanceof Button) {
             return -1;
@@ -166,6 +221,10 @@ public class Cart {
         return 0;
     }
 
+    /**
+     * Moves the cart to the top.
+     * @return 0 if successful.
+     */
     public Integer moveUp() {
         if (tile.getChildren().get((currCoord.get('y') - 1) * this.mapWidth + currCoord.get('x')) instanceof Button) {
             return -1;
@@ -181,18 +240,27 @@ public class Cart {
         return 0;
     }
 
+    /**
+     * Cart stays in one place.
+     * @return 0 if successful.
+     */
     public void noMove() {
         currCoord.put('x', currCoord.get('x'));
         currCoord.put('y', currCoord.get('y'));
     }
 
     /**
-     * Graphic representation of cart
+     * Graphic representation of cart.
+     * @param posX X coordinate.
+     * @param posY Y coordinate.
      */
     public  void  showCart(int posX, int posY){
             tile.add(this.cart1, posX,posY);
     }
 
+    /**
+     * Remove graphic representation of cart.
+     */
     public  void  removeCartView(){
         tile.getChildren().remove(this.cart1);
     }

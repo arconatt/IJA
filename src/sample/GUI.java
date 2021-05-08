@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.EventHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,8 +50,6 @@ public class GUI {
     public Integer WarehouseMax = 8000;
     public String value;
     public Double finalspeed = 1.0;
-
-//    private Integer activeCart = 0;
 
     /**
      * Create menu on the top.
@@ -129,8 +129,6 @@ public class GUI {
         title.setStyle("-fx-font-size:25; -fx-font-weight: bold");
         vbox.getChildren().add(title);
 
-
-
         Label options[] = new Label[]{
                 new Label("Active trolleys"),
                 new Label("0"),
@@ -141,7 +139,6 @@ public class GUI {
                 new Label("Speed"),
                 new Label(value),
         };
-
 
         options[0].setStyle("-fx-font-weight: bold");
         options[1].setPrefSize(120,60);
@@ -156,22 +153,28 @@ public class GUI {
         options[7].setPrefSize(120,60);
         options[7].setStyle("-fx-border-style: solid");
 
-
         for (int i=0; i<8; i++) {
             options[i].setAlignment(Pos.CENTER);
             VBox.setMargin(options[i], new Insets(0, 0, 0, 8));
             vbox.getChildren().add(options[i]);
         }
 
-
         this.VBoxOptions = options;
         return vbox;
     }
 
+    /**
+     * Update label with active carts number.
+     * @param active Number of active carts.
+     */
     public void setActiveCarts(Integer active) {
         this.VBoxOptions[1].setText(active.toString());
     }
 
+    /**
+     * Update current simulation time.
+     * @param time Simulation time.
+     */
     public void setTime(Integer time) {
         if (goodsManager.requestManager.cartManager.time != 60){
             this.secs = goodsManager.requestManager.cartManager.time;
@@ -185,13 +188,14 @@ public class GUI {
         this.VBoxOptions[5].setText(mins + ":" + secs);
     }
 
-
-
+    /**
+     * Set label with warehouse fulfillment.
+     * @param max Amount of items in the warehouse.
+     */
     public void setWarehouseMax(Integer max) {
         Integer filling = (max * 100 ) / WarehouseMax;
         this.VBoxOptions[3].setText(max.toString() + " items in stock, \n" + filling.toString() + "% fulfillment" );
     }
-
 
     /**
      * Create parent for map layout.
@@ -208,7 +212,7 @@ public class GUI {
     /**
      * Create layout for the warehouse map.
      *
-     * @return Layout containing shelfs.
+     * @return Layout containing shelves.
      */
     private GridPane addGridPane() {
         tile = new GridPane();
@@ -220,8 +224,8 @@ public class GUI {
         ArrayList<Shelf> goodsShelf = new ArrayList<Shelf>();
         ArrayList<Button> buttonsShelf = new ArrayList<Button>();
         buttonsShelf = warehouseMapBuilder.getShelfButtons();
-        goodsShelf =  warehouseMapBuilder.getShelf();
-        this.goodsManager = new Goods(warehouseMapBuilder.getShelfList(), tile, goodsShelf, buttonsShelf, this.additionalReq, this.closed, this);
+        goodsShelf =  warehouseMapBuilder.getShelfList();
+        this.goodsManager = new Goods(tile, goodsShelf, buttonsShelf, this.additionalReq, this.closed, this);
         Button new_start = warehouseMapBuilder.getStart_button();
         new_start.setOnAction(e -> {
             goodsManager.requestManager.cartManager.timeline.pause();
@@ -246,6 +250,7 @@ public class GUI {
             "Right section shows current information about the stock (active carts, speed, time and fulfillness of stock).\n" +
             "4. \n" +
             "Start button starts the demonstration and Pause button pauses it.\n";
+
     /**
      * Display popup window with title of shelf and scrollpane of containing goods.
      *
@@ -282,6 +287,10 @@ public class GUI {
 
     }
 
+    /**
+     * Display popup with error.
+     * @param error Error text.
+     */
     public static void displayError(String error)
     {
         Stage popupwindow = new Stage();
@@ -304,6 +313,12 @@ public class GUI {
         popupwindow.show();
     }
 
+    /**
+     * Display popup of cart contents and route.
+     * @param goodsData Goods in the cart.
+     * @param timeline Timeline animation.
+     * @param cart Current cart.
+     */
     public static void displayCart(HashMap<String, Integer> goodsData, Timeline timeline, Cart cart)
     {
         Stage popupwindow = new Stage();
@@ -342,7 +357,11 @@ public class GUI {
 
     }
 
-
+    /**
+     * Display contents of the drop off.
+     * @param goodsData Contents in text form.
+     * @param timeline Timeline animation.
+     */
     public static void displayStart(StringBuilder goodsData, Timeline timeline)
     {
         Stage popupwindow = new Stage();
@@ -370,8 +389,11 @@ public class GUI {
 
     }
 
+    /**
+     * Display all requests.
+     * @param goodsManager Class for goods management.
+     */
     public static void displayGoods(Goods goodsManager){
-
 
         Label labelrequestlist = new Label(goodsManager.requestManager.listofGoods());
         labelrequestlist.setStyle("-fx-font-size:15");
@@ -402,6 +424,10 @@ public class GUI {
 
     }
 
+    /**
+     * Final speed getter.
+     * @return Final speed.
+     */
     public Double getFinalspeed() {
         return finalspeed;
     }
@@ -456,7 +482,6 @@ public class GUI {
         cb7.setText("7");
         cb7.setSelected(false);
 
-
         HBox hb = new HBox();
         hb.getChildren().addAll(labelgood, textField_g, labelamount, textField_a, submit);
         hb.setSpacing(10);
@@ -467,12 +492,12 @@ public class GUI {
         Label speedlabel = new Label("Speed:");
         speedlabel.setStyle("-fx-font-size:20; -fx-font-weight: bold; -fx-text-fill: #336699");
         ComboBox comboBox = new ComboBox();
+        comboBox.setValue("1");
 
         comboBox.getItems().add("1");
         comboBox.getItems().add("0.7");
         comboBox.getItems().add("0.5");
         comboBox.getItems().add("0.3");
-
 
         Button closerequestbut = new Button("Done");
         closerequestbut.setPrefSize(70,50);
@@ -513,9 +538,6 @@ public class GUI {
         layouthelp.getChildren().addAll(labelhelp, closebut);
         layouthelp.setAlignment(Pos.CENTER);
 
-
-
-
         scenehelp = new Scene(layouthelp, 1150, 750);
 
         closerequestbut.setOnAction(e -> {
@@ -539,6 +561,16 @@ public class GUI {
             primaryStage.setScene(scene);
         });
 
+//        primaryStage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                System.out.println("mouse click detected! " + mouseEvent.getSource());
+//            }
+//        });
+//
+//        primaryStage.addEventHandler(ScrollEvent.SCROLL, e -> {
+//
+//        });
 
         primaryStage.show();
     }

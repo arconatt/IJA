@@ -39,12 +39,16 @@ public class Goods {
 
     /**
      * Adds the items to the warehouse.
-     *
-     * @param shelfPar List of shelves.
+     * @param tile GridPane map.
+     * @param goodsShelf ArrayList of shelves.
+     * @param buttonsShelf ArrayList of buttons corresponding to shelves.
+     * @param additionalReq List of additional requests.
+     * @param closed List of closed paths.
+     * @param gui GUI instance.
      */
-    public Goods(ArrayList<Shelf> shelfPar, GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed, GUI gui) {
+    public Goods(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed, GUI gui) {
         this.tile = tile;
-        this.shelf = shelfPar;
+        this.shelf = goodsShelf;
         HashMap<String, Object> typesMap = new HashMap<>();
         currType = new ArrayList<>();
         String prevType = "";
@@ -86,6 +90,10 @@ public class Goods {
         }
     }
 
+    /**
+     * Closes paths.
+     * @param closed List of closed paths.
+     */
     private void closePaths(ArrayList<Integer> closed) {
         for (int i = 0; i < closed.size(); i++) {
             int x = 0;

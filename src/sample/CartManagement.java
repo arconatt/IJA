@@ -1,3 +1,12 @@
+/**
+ * Management of carts.
+ *
+ * @author Natalia Markova, xmarko20
+ * @author Tereza Burianova, xburia28
+ * @version 1.0
+ *
+ */
+
 package sample;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -7,6 +16,9 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+/**
+ * Management of carts.
+ */
 public class CartManagement {
     Cart cart1;
     Cart cart2;
@@ -27,6 +39,15 @@ public class CartManagement {
     private GridPane tile;
     public StringBuilder unloaded = new StringBuilder("");
 
+    /**
+     * Constructor of carts manager.
+     * @param tile GridPane map.
+     * @param itemsQueue Queue of requested items.
+     * @param goodsShelf ArrayList of shelves.
+     * @param buttonsShelf ArrayList of buttons corresponding to shelves.
+     * @param closed List of closed paths.
+     * @param gui GUI instance.
+     */
     public CartManagement(GridPane tile, Queue<String> itemsQueue, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<Integer> closed, GUI gui) {
         this.shelves = goodsShelf;
         this.shelfButtons = buttonsShelf;
@@ -42,6 +63,9 @@ public class CartManagement {
         this.alg = new Algorithm(tile, this.shelves, this.shelfButtons, this.columns, itemsQueue, timeline, closed);
     }
 
+    /**
+     * Fills the paths with corresponding shelves.
+     */
     public void fillPaths() {
         HashMap<Integer, Button> column1 = new HashMap<>();
         HashMap<Integer, Button> column2 = new HashMap<>();
@@ -77,6 +101,12 @@ public class CartManagement {
         columns.add(column9);
     }
 
+    /**
+     * Fill one path.
+     * @param column Current path.
+     * @param start Start position.
+     * @param end End position.
+     */
     private void fillColumns(HashMap<Integer, Button> column, int start, int end) {
         for (int i = start; i < end; i += 16) {
             column.put(i, this.shelfButtons.get(i));
@@ -84,6 +114,10 @@ public class CartManagement {
         }
     }
 
+    /**
+     * Find out if the requested goods is in current path.
+     * @param cart Current cart instance.
+     */
     private void isReqInLine(Cart cart) {
         for (int i = 0; i < cart.targetCoords.size(); i++) {
             if (cart.targetCoords.get(i).getX().equals(cart.currCoord.get('x'))) {
@@ -95,6 +129,9 @@ public class CartManagement {
         }
     }
 
+    /**
+     * Timeline animation.
+     */
     private void tl() {
         this.timeline = new Timeline(
                 new KeyFrame(Duration.seconds(gui.getFinalspeed()), e -> {
@@ -105,9 +142,9 @@ public class CartManagement {
         );
     }
 
-
-    // list souradnic od algoritmu
-    // posune vsechny voziky o 1 policko
+    /**
+     * Moves all carts by one.
+     */
     public void updateCarts() {
         cartBehaviour(cart1);
         cartBehaviour(cart2);
@@ -117,6 +154,10 @@ public class CartManagement {
         this.time++;
     }
 
+    /**
+     * Algorithm for cart movement and behaviour.
+     * @param cart Current cart.
+     */
     public void cartBehaviour(Cart cart) {
         Integer moveres = 0;
 
@@ -238,8 +279,6 @@ public class CartManagement {
                 }
             }
         }
-
-
 
         // main part
         if (!cart.isDown) {

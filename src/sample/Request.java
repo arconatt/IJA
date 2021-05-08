@@ -31,6 +31,12 @@ public class Request {
 
     /**
      * Load requests from file.
+     * @param tile GridPane map.
+     * @param goodsShelf List of shelves.
+     * @param buttonsShelf List of buttons corresponding to shelves.
+     * @param additionalReq List of additional requests.
+     * @param closed List of closed paths.
+     * @param gui GUI instance.
      */
     public Request(GridPane tile, ArrayList<Shelf> goodsShelf, ArrayList<Button> buttonsShelf, ArrayList<String> additionalReq, ArrayList<Integer> closed, GUI gui) {
         this.tile = tile;
