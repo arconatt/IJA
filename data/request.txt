@@ -9,3 +9,4 @@ Lampa,2
 Radiator,6
 Pohovka,2
 Dvere,1
+Knihovna,4

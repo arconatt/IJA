@@ -127,6 +127,7 @@ public class CartManagement {
         if (cart.unloading){
             cart.noMove();
             cart.unloading = false;
+            cart.isBack = true;
             return;
         }
 
@@ -196,7 +197,7 @@ public class CartManagement {
         }
 
         // check if carts should go to the top of the map
-        if (cart.currCoord.get('x') == 0) {
+        if (cart.currCoord.get('x') == 0 && !cart.isBack) {
             if (cart.onTheWay) {
                 if (cart.currCoord.get('y') < cart.yTarget) {
                     cart.moveDown();
