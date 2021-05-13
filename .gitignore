@@ -1,0 +1,8 @@
+.idea
+out
+dest
+build
+/doc/*
+!architektura.pdf
+lib
+!lib/get-libs.sh
