@@ -242,7 +242,6 @@ public class Cart {
 
     /**
      * Cart stays in one place.
-     * @return 0 if successful.
      */
     public void noMove() {
         currCoord.put('x', currCoord.get('x'));
